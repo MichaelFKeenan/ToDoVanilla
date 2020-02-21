@@ -18,17 +18,30 @@ export const init = async () => {
 const generateList = () => {
     const itemList = document.getElementById('item-list');
 
-    //hide elements instead of removing and repopulating dom?
-    //does this mean we need to render all of them on page load? probably!
     itemList.innerHTML = '';
 
-    const filteredItems = FilterItems(toDoItems, filters);
-    
-    filteredItems.forEach((item) => {
+    toDoItems.forEach((item) => {
         const newListItem = document.createElement('li');
+        newListItem.className = "toDoItem";
+        newListItem.attributes.itemId = item.Id;
         newListItem.innerHTML = item.Name;
         itemList.appendChild(newListItem);
     });
+}
+
+const filterList = () => {
+    const filteredIds = FilterItems(toDoItems, filters).map((item) => item.Id);
+
+    const itemsInDom = document.getElementsByClassName('toDoItem');
+    
+    for (var i = 0; i < itemsInDom.length; i++) {
+        if(filteredIds.includes(itemsInDom[i].attributes.itemId)){
+            itemsInDom[i].style.display = "block";
+        }
+        else {
+            itemsInDom[i].style.display = "none";
+        }
+    }
 }
 
 const registerFilters = () => {
@@ -40,5 +53,5 @@ const registerFilters = () => {
 
 const filterClick = (filter) => {
     filter.active = !filter.active;
-    generateList();
+    filterList();
 }
