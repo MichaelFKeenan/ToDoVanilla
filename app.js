@@ -3,12 +3,6 @@ var app = express();
 const path = require('path');
 const router = express.Router();
 
-router.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/views/index.html'));
-    const filterBtn = document.getElementById('complete-filter-btn');
-    console.log(filterBtn);
-});
-
 router.get('/about', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/views/about.html'));
 });

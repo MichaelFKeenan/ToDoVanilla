@@ -1,6 +1,6 @@
+import HighPriorityFilter from './filters/highPriorityFilter.js'
+import CompleteFilter from './filters/completeFilter.js'
 
-// get these from json file
-// populate on construction/init
 const toDoItems = [
     {
         "Name": "item one name",
@@ -18,26 +18,6 @@ const toDoItems = [
         "Priority": 2
     }
 ]
-
-// move these
-// implement interface?
-class HighPriorityFilter {
-    name = "highPriorityFilter";
-    htmlIdentifier = "high-priority-filter-btn";
-    active = false;
-    filter = (toDoItem) => {
-        return this.active ? toDoItem.Priority >= 3 : true
-    }
-}
-
-class CompleteFilter {
-    name = "completeFilter";
-    htmlIdentifier = "complete-filter-btn";
-    active = false;
-    filter = (toDoItem) => {
-        return this.active ? !toDoItem.Complete : true
-    }
-}
 
 export const init = () => {
     registerFilters();
