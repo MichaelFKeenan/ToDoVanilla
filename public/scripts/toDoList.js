@@ -3,12 +3,13 @@ import CompleteFilter from './filters/completeFilter.js'
 import FilterItems from './filters/filterService.js'
 import { getAllItems } from './itemsService.js'
 
-//make this a class and move to constructor?
-const toDoItems = await getAllItems();
+let toDoItems = []
 
 const filters = [new HighPriorityFilter(), new CompleteFilter()]
 
-export const init = () => {
+export const init = async () => {
+    toDoItems = await getAllItems();
+
     registerFilters();
 
     generateList();
@@ -18,6 +19,7 @@ const generateList = () => {
     const itemList = document.getElementById('item-list');
 
     //hide elements instead of removing and repopulating dom?
+    //does this mean we need to render all of them on page load? probably!
     itemList.innerHTML = '';
 
     const filteredItems = FilterItems(toDoItems, filters);
