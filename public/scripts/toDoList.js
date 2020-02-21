@@ -21,6 +21,7 @@ const generateList = () => {
     itemList.innerHTML = '';
 
     toDoItems.forEach((item) => {
+        //can we use a template here? that has classes for styling etc? orrrr web components?
         const newListItem = document.createElement('li');
         newListItem.className = "toDoItem";
         newListItem.attributes.itemId = item.Id;
@@ -29,11 +30,12 @@ const generateList = () => {
     });
 }
 
+//How do we test this kind of stuff?!
 const filterList = () => {
     const filteredIds = FilterItems(toDoItems, filters).map((item) => item.Id);
 
     const itemsInDom = document.getElementsByClassName('toDoItem');
-    
+
     for (var i = 0; i < itemsInDom.length; i++) {
         if(filteredIds.includes(itemsInDom[i].attributes.itemId)){
             itemsInDom[i].style.display = "block";
@@ -45,9 +47,16 @@ const filterList = () => {
 }
 
 const registerFilters = () => {
+    const filtersContainer = document.getElementById('filters-container');
+
+    
     filters.forEach((filter) => {
-        const filterBtn = document.getElementById(filter.htmlIdentifier);
+        //can we use a template here? that has classes for styling etc? orrrr web components?
+        const filterBtn = document.createElement('button');
+        filterBtn.id = filter.htmlIdentifier;
+        filterBtn.innerHTML = filter.name;
         filterBtn.addEventListener('click', () => filterClick(filter));
+        filtersContainer.appendChild(filterBtn);
     })
 }
 
