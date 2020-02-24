@@ -54,13 +54,16 @@ const registerFilters = () => {
         //can we use a template here? that has classes for styling etc? orrrr web components?
         const filterBtn = document.createElement('button');
         filterBtn.id = filter.htmlIdentifier;
-        filterBtn.innerHTML = filter.name;
-        filterBtn.addEventListener('click', () => filterClick(filter));
+        filterBtn.innerHTML = buildFilterText(filter);
+        filterBtn.addEventListener('click', () => filterClick(filter, filterBtn));
         filtersContainer.appendChild(filterBtn);
     })
 }
 
-const filterClick = (filter) => {
+const filterClick = (filter, filterBtn) => {
     filter.active = !filter.active;
+    filterBtn.innerHTML = buildFilterText(filter);
     filterList();
 }
+
+const buildFilterText = (filter) => filter.name + (filter.active ? ' on' : ' off');

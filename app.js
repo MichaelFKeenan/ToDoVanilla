@@ -3,8 +3,8 @@ var app = express();
 const path = require('path');
 const router = express.Router();
 
-router.get('/about', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/views/about.html'));
+router.get('/create', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/views/create.html'));
 });
 
 app.use(express.static(__dirname + '/public/views'));
