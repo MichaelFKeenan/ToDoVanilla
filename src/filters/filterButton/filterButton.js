@@ -20,8 +20,6 @@ export class FilterButton extends HTMLElement {
     this.ButtonEl.innerHTML = this.buildFilterText(filter);
 
     this.ButtonEl.addEventListener('click', () => this.filterClick(filter));
-
-    console.log(this);
   }
 
   filterClick = (filter) => {
