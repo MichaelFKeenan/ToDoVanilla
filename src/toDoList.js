@@ -2,6 +2,8 @@ import HighPriorityFilter from './filters/highPriorityFilter.js'
 import CompleteFilter from './filters/completeFilter.js'
 import FilterItems from './filters/filterService.js'
 import { getAllItems } from './itemsService.js'
+import { ListItem } from './listItem/listItem.js';
+import { FilterButton } from './filters/filterButton/filterButton.js';
 
 let toDoItems = []
 
@@ -21,11 +23,7 @@ const generateList = () => {
     itemList.innerHTML = '';
 
     toDoItems.forEach((item) => {
-        //can we use a template here? that has classes for styling etc? orrrr web components?
-        const newListItem = document.createElement('li');
-        newListItem.className = "toDoItem";
-        newListItem.attributes.itemId = item.Id;
-        newListItem.innerHTML = item.Name;
+        const newListItem = new ListItem(item);
         itemList.appendChild(newListItem);
     });
 }
@@ -52,18 +50,9 @@ const registerFilters = () => {
     
     filters.forEach((filter) => {
         //can we use a template here? that has classes for styling etc? orrrr web components?
-        const filterBtn = document.createElement('button');
-        filterBtn.id = filter.htmlIdentifier;
-        filterBtn.innerHTML = buildFilterText(filter);
-        filterBtn.addEventListener('click', () => filterClick(filter, filterBtn));
+        const filterBtn = new FilterButton(filter, filterList);
         filtersContainer.appendChild(filterBtn);
     })
-}
-
-const filterClick = (filter, filterBtn) => {
-    filter.active = !filter.active;
-    filterBtn.innerHTML = buildFilterText(filter);
-    filterList();
 }
 
 const buildFilterText = (filter) => filter.name + (filter.active ? ' on' : ' off');

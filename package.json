@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack --env.MODE=production",
     "start:client": "webpack-dev-server --config webpack.config.js",
+    "start": "node app.js",
     "test": "jest"
   },
   "author": "",
