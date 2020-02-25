@@ -1,8 +1,14 @@
 export default class CompleteFilter {
-    htmlIdentifier = "complete-filter-btn";
-    name = "complete filter";
-    active = false;
-    filter = (toDoItem) => {
-        return this.active ? !toDoItem.Complete : true
+    htmlIdentifier;
+    name;
+    active;
+    filter;
+    constructor({isActive}) {
+        this.htmlIdentifier = "complete-filter-btn";
+        this.name = "complete filter";
+        this.active = isActive;
+        this.filter = (toDoItem) => {
+            return this.active ? !toDoItem.Complete : true
+        }
     }
 }

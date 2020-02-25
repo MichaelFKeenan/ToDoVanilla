@@ -1,13 +1,13 @@
-import HighPriorityFilter from './filters/highPriorityFilter.js'
-import CompleteFilter from './filters/completeFilter.js'
+import FilterFactory from './filters/filterFactory.js'
 import FilterItems from './filters/filterService.js'
 import { getAllItems } from './itemsService.js'
 import { ListItem } from './listItem/listItem.js';
 import { FilterButton } from './filters/filterButton/filterButton.js';
+import PubSub from './pubsub.js'
 
 let toDoItems = []
 
-const filters = [new HighPriorityFilter(), new CompleteFilter()]
+const filters = [FilterFactory.createFilter('HighPriorityFilter', false), FilterFactory.createFilter('CompleteFilter', false)]
 
 export const init = async () => {
     toDoItems = await getAllItems();
@@ -15,6 +15,8 @@ export const init = async () => {
     registerFilters();
 
     generateList();
+
+    PubSub.subscribe("filterListEvent", filterList)
 }
 
 const generateList = () => {
@@ -28,7 +30,7 @@ const generateList = () => {
     });
 }
 
-//How do we test this kind of stuff?!
+//How do we test this kind of stuff?! Karma?
 const filterList = () => {
     const filteredIds = FilterItems(toDoItems, filters).map((item) => item.Id);
 
@@ -47,12 +49,8 @@ const filterList = () => {
 const registerFilters = () => {
     const filtersContainer = document.getElementById('filters-container');
 
-    
     filters.forEach((filter) => {
-        //can we use a template here? that has classes for styling etc? orrrr web components?
-        const filterBtn = new FilterButton(filter, filterList);
+        const filterBtn = new FilterButton(filter);
         filtersContainer.appendChild(filterBtn);
     })
 }
-
-const buildFilterText = (filter) => filter.name + (filter.active ? ' on' : ' off');
