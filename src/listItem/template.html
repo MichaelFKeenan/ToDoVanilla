@@ -1,13 +1,25 @@
 
 <style>
-    #root {
+    .item {
+      list-style: none;
+    }
+    .item__section {
+      /*Make these variables so we can share with other list items*/
+      width: 32%;
+      display: inline-block;
       text-align: center;
     }
   </style>
   <div id="root">
-    <li id="root__item">
-      <span id="item__name"></span>
-      <span id="item__complete"></span>
-      <span id="item__priority"></span>
+    <li class="item" id="root__item">
+      <div class="item__section">
+          <span id="item__name"></span>
+      </div>
+      <div class="item__section">
+          <span class="item__section" id="item__complete"></span>
+      </div>
+      <div class="item__section">
+          <span class="item__section" id="item__priority"></span>
+      </div>
     </li>
   </div>

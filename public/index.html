@@ -4,16 +4,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To Do</title>
+    <style>
+        .page-container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .item-list__header-row {
+            /*Make these variables so we can share with other list items*/
+            list-style: none;
+        }
+
+        .item-list__header {
+            /*Make these variables so we can share with other list items*/
+            width: 32%;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <ul id="item-list">
+    <div class="page-container">
+        <ul id="item-list">
+            <li class="item-list__header-row">
+                <div class="item-list__header">
+                    <strong>Name</strong>
+                </div>
+                <div class="item-list__header">
+                    <strong>Priority</strong>
+                </div>
+                <div class="item-list__header">
+                    <strong>Completed</strong>
+                </div>
+            </li>
+        </ul>
+        <div id="filters-container">
 
-    </ul>
-    <div id="filters-container">
-
+        </div>
+        <a href="/create">New Item</a>
     </div>
-    <a href="/create">New Item</a>
     <script src="index.js"></script>
 </body>
 

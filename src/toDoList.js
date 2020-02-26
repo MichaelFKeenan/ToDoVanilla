@@ -7,7 +7,7 @@ import PubSub from './pubsub.js'
 
 let toDoItems = []
 
-const filters = [FilterFactory.createFilter('HighPriorityFilter', false), FilterFactory.createFilter('CompleteFilter', false)]
+const filters = [FilterFactory.createFilter('HighPriorityFilter', false), FilterFactory.createFilter('CompleteFilter', true)]
 
 export const init = async () => {
     toDoItems = await getAllItems();
@@ -21,8 +21,6 @@ export const init = async () => {
 
 const generateList = () => {
     const itemList = document.getElementById('item-list');
-
-    itemList.innerHTML = '';
 
     toDoItems.forEach((item) => {
         const newListItem = new ListItem(item);
