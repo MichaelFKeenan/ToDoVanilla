@@ -2,14 +2,18 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: {
+        index: "./src/index.js",
+        create: "./src/create.js"
+    },
+    // entry: './src/index.js',
     devServer: {
         contentBase: path.join(__dirname, 'public'),
         port: 8080,
         host: `localhost`,
     },
     output: {
-        filename: 'bundle.js',
+        filename: './[name].js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
