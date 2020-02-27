@@ -1,4 +1,4 @@
-export const getAllItems = async () => [
+const items = [
     {
         "Id": 1,
         "Name": "item one name",
@@ -18,3 +18,13 @@ export const getAllItems = async () => [
         "Priority": 2
     }
 ]
+
+export const getAllItems = async () => items
+
+export const addItem = async (newItem) => {
+    //validate here?
+    const newId = items[items.length - 1].Id + 1;
+    newItem.Id = newId;
+    items.push(newItem)
+    console.log(items);
+}

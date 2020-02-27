@@ -1,1 +1,2 @@
-console.log('HEY!')
+import {init} from './createItem.js'
+init();
