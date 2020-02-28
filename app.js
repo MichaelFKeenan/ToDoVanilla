@@ -5,6 +5,9 @@ const config = require('./webpack.config.js');
 const path = require('path');
 var fs = require('fs');
 const bodyParser = require('body-parser');
+const { promisify } = require('util')
+const writeFile = promisify(fs.writeFile)
+const readFile = promisify(fs.readFile)
 
 const app = express();
 const port = 8080;
@@ -38,9 +41,21 @@ app.get('/items', async function (req, res) {
     });
 });
 
-app.post('/item', function (req, res) {
-    console.log(req.body);
-    res.sendFile('done');
+app.post('/item', async function (req, res) {
+    const items = await readFile('./toDo.json', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        return JSON.parse(data);
+    });
+    console.log(items.toJSON());
+
+    const newItem = req.body;
+    newItem.Id = items[items.length-1].id + 1;
+
+    items.push(newItem)
+    await writeFile('./toDo.json', JSON.stringify(items));
+    res.send('done');
 });
 
 app.listen(port, () => {
