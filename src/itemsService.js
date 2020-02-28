@@ -1,30 +1,25 @@
-const items = [
-    {
-        "Id": 1,
-        "Name": "item one name",
-        "Complete": true,
-        "Priority": 1
-    },
-    {
-        "Id": 2,
-        "Name": "item two name",
-        "Complete": false,
-        "Priority": 3
-    },
-    {
-        "Id": 3,
-        "Name": "item three name",
-        "Complete": false,
-        "Priority": 2
-    }
-]
-
-export const getAllItems = async () => items
+export const getAllItems = async () => {
+  let response = await fetch(`http://localhost:8080/items`);
+  let data = await response.json()
+  return data;
+}
 
 export const addItem = async (newItem) => {
     //validate here?
-    const newId = items[items.length - 1].Id + 1;
-    newItem.Id = newId;
-    items.push(newItem)
-    console.log(items);
+
+    const response = await fetch(`http://localhost:8080/item`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(newItem) // body data type must match "Content-Type" header
+    });
+
+    return await response.json();
 }
