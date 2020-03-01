@@ -7,7 +7,9 @@
     "build": "webpack --env.MODE=production",
     "start:client": "webpack-dev-server --config webpack.config.js",
     "start": "node app.js",
-    "test": "jest"
+    "test": "jest",
+    "heroku-prebuild": "echo This runs before Heroku installs your dependencies.",
+    "heroku-postbuild": "echo This runs afterwards."
   },
   "author": "",
   "license": "ISC",
