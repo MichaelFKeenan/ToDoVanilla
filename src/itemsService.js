@@ -21,5 +21,6 @@ export const addItem = async (newItem) => {
         body: JSON.stringify(newItem) // body data type must match "Content-Type" header
     });
 
-    return await response.json();
+    //handle errors here?
+    return await response;
 }

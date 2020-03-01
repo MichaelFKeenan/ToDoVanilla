@@ -12,6 +12,7 @@ export const init = async () => {
             Complete: false,
             Priority: Number(priorityValue)
         }
+        //do something with this response?
         await addItem(newItem);
     })
 }

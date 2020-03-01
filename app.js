@@ -5,7 +5,9 @@ const config = require('./webpack.config.js');
 const path = require('path');
 var fs = require('fs');
 const bodyParser = require('body-parser');
-const { promisify } = require('util')
+const {
+    promisify
+} = require('util')
 const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
 
@@ -14,7 +16,9 @@ const port = 8080;
 
 const compiler = webpack(config);
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(bodyParser.json());
 
 //Enable "webpack-dev-middleware"
@@ -42,20 +46,23 @@ app.get('/items', async function (req, res) {
 });
 
 app.post('/item', async function (req, res) {
-    const items = await readFile('./toDo.json', function read(err, data) {
-        if (err) {
-            throw err;
-        }
-        return JSON.parse(data);
-    });
-    console.log(items.toJSON());
+    //handle errors from this
+    const result = await readFile('./toDo.json');
+
+    const items = JSON.parse(result);
 
     const newItem = req.body;
-    newItem.Id = items[items.length-1].id + 1;
+    if (items.length > 0) {
+        newItem.Id = items[items.length - 1].Id + 1;
+    } else {
+        newItem.Id = 0;
+    }
 
     items.push(newItem)
+
+    //handle errors from this
     await writeFile('./toDo.json', JSON.stringify(items));
-    res.send('done');
+    res.send(200);
 });
 
 app.listen(port, () => {
