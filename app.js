@@ -52,6 +52,8 @@ app.post('/item', async function (req, res) {
     const items = JSON.parse(result);
 
     const newItem = req.body;
+    //YUCK! deffo wanna bring typescipt in
+    //also, pull this out to some kinda service because it's deffo gonna be changed/swapped out for db intergration
     if (items.length > 0) {
         newItem.Id = items[items.length - 1].Id + 1;
     } else {
