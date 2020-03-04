@@ -67,6 +67,6 @@ app.post('/item', async function (req, res) {
     res.send(200);
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log('Server started on port:' + port);
 });
