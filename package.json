@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.11.1"
+  },
   "scripts": {
     "build": "webpack --env.MODE=production",
     "start:client": "webpack-dev-server --config webpack.config.js",
