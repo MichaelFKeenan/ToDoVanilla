@@ -1,4 +1,5 @@
 import template from './template.html';
+import { updateItem } from '../itemsService.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
@@ -32,8 +33,20 @@ export class ListItem extends HTMLElement {
       return;
     }
 
+    this.completeButtonEl = shadow.getElementById('item-complete-btn');
+    if (this.completeButtonEl === null) {
+      return;
+    }
+
     this.completeEl.textContent = itemData.Complete === true ? 'complete' : 'incomplete';
     this.priorityEl.textContent = itemData.Priority.toString();
+
+    this.completeButtonEl.addEventListener('click', async () => {
+      //create a new image instead i think
+      itemData.Complete = true;
+      //do something with this response?
+      await updateItem(itemData);
+    })
   }
 }
 window.customElements.define('list-item', ListItem);

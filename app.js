@@ -67,6 +67,26 @@ app.post('/item', async function (req, res) {
     res.send(200);
 });
 
+app.put('/item', async function (req, res) {
+    //handle errors from this
+    const result = await readFile('./toDo.json');
+
+    const items = JSON.parse(result);
+
+    //will this work? hope not, may need some mapping or i don't even know
+    updatedItem = req.body;
+    for (var i in items) {
+        if (items[i].Id == updatedItem.Id) {
+            items[i] = updatedItem;
+           break;
+        }
+      }
+
+    //handle errors from this
+    await writeFile('./toDo.json', JSON.stringify(items));
+    res.send(200);
+});
+
 app.listen(process.env.PORT || port, () => {
     console.log('Server started on port:' + port);
 });
