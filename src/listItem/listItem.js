@@ -8,45 +8,55 @@ export class ListItem extends HTMLElement {
   NameEl;
   CompleteEl;
   PriorityEl;
+  CompleteButtonEl
+  Item;
 
   constructor(itemData) {
     super();
     const shadow = this.attachShadow({ mode: 'closed' });
     shadow.appendChild(templateEl.content.cloneNode(true));
 
+    this.Item = itemData;
+
     this.className = 'toDoItem';
-    this.attributes.itemId = itemData.Id
+    this.attributes.itemId = this.Item.Id
 
-    this.nameEl = shadow.getElementById('item__name');
-    if (this.nameEl === null) {
+    this.NameEl = shadow.getElementById('item__name');
+    if (this.NameEl === null) {
       return;
     }
-    this.nameEl.textContent = itemData.Name;
+    this.NameEl.textContent = this.Item.Name;
 
-    this.completeEl = shadow.getElementById('item__complete');
-    if (this.completeEl === null) {
-      return;
-    }
-
-    this.priorityEl = shadow.getElementById('item__priority');
-    if (this.priorityEl === null) {
+    this.CompleteEl = shadow.getElementById('item__complete');
+    if (this.CompleteEl === null) {
       return;
     }
 
-    this.completeButtonEl = shadow.getElementById('item-complete-btn');
-    if (this.completeButtonEl === null) {
+    this.PriorityEl = shadow.getElementById('item__priority');
+    if (this.PriorityEl === null) {
       return;
     }
 
-    this.completeEl.textContent = itemData.Complete === true ? 'complete' : 'incomplete';
-    this.priorityEl.textContent = itemData.Priority.toString();
+    this.CompleteButtonEl = shadow.getElementById('item-complete-btn');
+    if (this.CompleteButtonEl === null) {
+      return;
+    }
 
-    this.completeButtonEl.addEventListener('click', async () => {
+    this.updateCompleteElAndBtnText();
+    this.PriorityEl.textContent = this.Item.Priority.toString();
+
+    this.CompleteButtonEl.addEventListener('click', async () => {
       //create a new image instead i think
-      itemData.Complete = true;
+      this.Item.Complete = !this.Item.Complete;
       //do something with this response?
-      await updateItem(itemData);
+      await updateItem(this.Item);
+      this.updateCompleteElAndBtnText();
     })
+  }
+
+  updateCompleteElAndBtnText = () => {
+    this.CompleteEl.textContent = this.Item.Complete === true ? 'complete' : 'incomplete';
+    this.CompleteButtonEl.textContent = this.Item.Complete === true ? 'mark as incomplete' : 'mark as complete';
   }
 }
 window.customElements.define('list-item', ListItem);
