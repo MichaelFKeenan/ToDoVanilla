@@ -1,14 +1,15 @@
 import template from './template.html';
-import { updateItem } from '../itemsService.js'
+import { updateItem, deleteItem } from '../itemsService.js'
+import PubSub from '../pubsub.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
 
 export class ListItem extends HTMLElement {
   NameEl;
-  CompleteEl;
+  CompleteButtonEl;
+  DeleteButtonEl;
   PriorityEl;
-  CompleteButtonEl
   Item;
 
   constructor(itemData) {
@@ -27,11 +28,6 @@ export class ListItem extends HTMLElement {
     }
     this.NameEl.textContent = this.Item.Name;
 
-    this.CompleteEl = shadow.getElementById('item__complete');
-    if (this.CompleteEl === null) {
-      return;
-    }
-
     this.PriorityEl = shadow.getElementById('item__priority');
     if (this.PriorityEl === null) {
       return;
@@ -42,21 +38,34 @@ export class ListItem extends HTMLElement {
       return;
     }
 
+    this.DeleteButtonEl = shadow.getElementById('item-delete-btn');
+    if (this.DeleteButtonEl === null) {
+      return;
+    }
+
     this.updateCompleteElAndBtnText();
     this.PriorityEl.textContent = this.Item.Priority.toString();
 
     this.CompleteButtonEl.addEventListener('click', async () => {
-      //create a new image instead i think
+      //create a new item instead i think
       this.Item.Complete = !this.Item.Complete;
       //do something with this response?
       await updateItem(this.Item);
       this.updateCompleteElAndBtnText();
+      //may be better to totally re-do list instead
+      PubSub.publish("filterListEvent");
+    })
+
+    this.DeleteButtonEl.addEventListener('click', async () => {
+      //do something with this response?
+      await deleteItem(this.Item.Id);
+
+      //reeeeally need to update list to reflect this... pubsub?
     })
   }
 
   updateCompleteElAndBtnText = () => {
-    this.CompleteEl.textContent = this.Item.Complete === true ? 'complete' : 'incomplete';
-    this.CompleteButtonEl.textContent = this.Item.Complete === true ? 'mark as incomplete' : 'mark as complete';
+    this.CompleteButtonEl.textContent = this.Item.Complete === true ? 'Complete' : 'Incomplete';
   }
 }
 window.customElements.define('list-item', ListItem);

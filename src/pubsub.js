@@ -1,6 +1,4 @@
-let subscribers = {
-    "something": () => true
-};
+let subscribers = {};
 export default {
     publish(event, data) {
         if (!subscribers[event]) return;

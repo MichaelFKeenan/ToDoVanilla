@@ -73,7 +73,7 @@ app.put('/item', async function (req, res) {
 
     const items = JSON.parse(result);
 
-    //will this work? hope not, may need some mapping or i don't even know
+    //some proper mapping may be better
     updatedItem = req.body;
     for (var i in items) {
         if (items[i].Id == updatedItem.Id) {
@@ -84,6 +84,24 @@ app.put('/item', async function (req, res) {
 
     //handle errors from this
     await writeFile('./toDo.json', JSON.stringify(items));
+    res.send(200);
+});
+
+app.delete('/item', async function (req, res) {
+    //handle errors from this
+    const result = await readFile('./toDo.json');
+
+    const items = JSON.parse(result);
+
+    itemId = req.body;
+
+    //don't mutate the original array, but this is quick for mvp
+    filteredItems = items.filter(function( item ) {
+        return item.Id !== itemId.Id;
+    });
+
+    //handle errors from this
+    await writeFile('./toDo.json', JSON.stringify(filteredItems));
     res.send(200);
 });
 
