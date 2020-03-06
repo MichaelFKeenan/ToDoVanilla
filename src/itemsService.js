@@ -1,5 +1,5 @@
 //can hopefully change this someday
-const apiUrl = window.location.href;
+const apiUrl = window.location.origin;
 
 export const getAllItems = async () => {
   let response = await fetch(apiUrl + `items`);
