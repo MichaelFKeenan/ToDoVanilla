@@ -13,6 +13,7 @@ export const init = async () => {
             Priority: Number(priorityValue)
         }
         //do something with this response?
+        //handle errors, or return to list with success message
         await addItem(newItem);
     })
 }
