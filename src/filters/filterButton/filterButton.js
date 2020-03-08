@@ -5,7 +5,6 @@ const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
 
 export class FilterButton extends HTMLElement {
-  FilterListFunc;
   ButtonEl;
 
   constructor(filter) {

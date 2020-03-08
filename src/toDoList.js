@@ -1,13 +1,26 @@
 import FilterFactory from './filters/filterFactory.js'
 import FilterItems from './filters/filterService.js'
-import { getAllItems } from './itemsService.js'
-import { ListItem } from './listItem/listItem.js';
-import { FilterButton } from './filters/filterButton/filterButton.js';
+import {
+    getAllItems
+} from './itemsService.js'
+import {
+    ListItem
+} from './listItem/listItem.js';
+import {
+    FilterButton
+} from './filters/filterButton/filterButton.js';
+import {
+    FilterSelect
+} from './filters/filterSelect/filterSelect.js';
 import PubSub from './pubsub.js'
 
 let toDoItems = []
 
-const filters = [FilterFactory.createFilter('HighPriorityFilter', false), FilterFactory.createFilter('CompleteFilter', true)]
+const filters = [
+    FilterFactory.createFilter('HighPriorityFilter', false),
+    FilterFactory.createFilter('CompleteFilter', true),
+    FilterFactory.createFilter('CategoryFilter', 0)
+]
 
 export const init = async () => {
     toDoItems = await getAllItems();
@@ -16,7 +29,7 @@ export const init = async () => {
 
     generateList();
 
-    PubSub.subscribe("filterListEvent", filterList)
+    PubSub.subscribe("filterListEvent", filterList);
 }
 
 const generateList = () => {
@@ -35,10 +48,9 @@ const filterList = () => {
     const itemsInDom = document.getElementsByClassName('toDoItem');
 
     for (var i = 0; i < itemsInDom.length; i++) {
-        if(filteredIds.includes(itemsInDom[i].attributes.itemId)){
+        if (filteredIds.includes(itemsInDom[i].attributes.itemId)) {
             itemsInDom[i].style.display = "block";
-        }
-        else {
+        } else {
             itemsInDom[i].style.display = "none";
         }
     }
@@ -48,7 +60,16 @@ const registerFilters = () => {
     const filtersContainer = document.getElementById('filters-container');
 
     filters.forEach((filter) => {
-        const filterBtn = new FilterButton(filter);
-        filtersContainer.appendChild(filterBtn);
+        console.log(filter)
+        let filterEl;
+        if(filter.type == "button"){
+            filterEl = new FilterButton(filter);
+        }
+        if(filter.type == "select"){
+            //need to build this
+            //filter should have a list of options as well as selected value
+            filterEl = new FilterSelect(filter);
+        }
+        filtersContainer.appendChild(filterEl);
     })
 }

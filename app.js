@@ -36,6 +36,8 @@ app.get('/create', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/create.html'));
 });
 
+//extract all this api stuff
+
 app.get('/items', async function (req, res) {
     await fs.readFile('./toDo.json', function read(err, data) {
         if (err) {
@@ -103,6 +105,15 @@ app.delete('/item', async function (req, res) {
     //handle errors from this
     await writeFile('./toDo.json', JSON.stringify(filteredItems));
     res.send(200);
+});
+
+app.get('/categories', async function (req, res) {
+    await fs.readFile('./categories.json', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        res.json(JSON.parse(data));
+    });
 });
 
 app.listen(process.env.PORT || port, () => {
