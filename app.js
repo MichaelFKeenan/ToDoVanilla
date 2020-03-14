@@ -10,11 +10,44 @@ const {
 } = require('util')
 const writeFile = promisify(fs.writeFile)
 const readFile = promisify(fs.readFile)
+const {
+    Client
+} = require('pg');
 
 const app = express();
 const port = 8080;
 
 const compiler = webpack(config);
+
+let client;
+
+console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
+
+const connectNewClient = () => {
+    if (process.env.DATABASE_URL) {
+        client = new Client({
+            connectionString: process.env.DATABASE_URL
+        });
+    } else {
+        client = new Client({
+            user: 'postgres',
+            host: 'localhost',
+            password: 'hwaaw488',
+            port: 5432,
+            database: 'todo'
+        });
+    }
+
+    client.connect(err => {
+        if (err) {
+          console.error('connection error', err.stack)
+        } else {
+          console.log('connected')
+        }
+      })
+}
+
+
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -39,72 +72,100 @@ app.get('/create', function (req, res) {
 //extract all this api stuff
 
 app.get('/items', async function (req, res) {
-    await fs.readFile('./toDo.json', function read(err, data) {
-        if (err) {
-            throw err;
+    connectNewClient()
+    
+    client.query('SELECT * FROM items;', (clientErr, clientRes) => {
+        if (clientErr) throw clientErr;
+        if (clientRes.rows == null || clientRes.rows.length < 1) {
+            //handle no rows
         }
-        res.json(JSON.parse(data));
+        const mappedItems = clientRes.rows.map(mapItem);
+        client.end();
+        res.json(mappedItems)
     });
 });
 
+const mapItem = (item) => {
+    return {
+        "Id": item.id,
+        "Name": item.name,
+        'Complete': item.complete == "1" ? true : false,
+        'Priority': item.priority,
+        'CategoryId': item.categoryId
+    };
+}
+
 app.post('/item', async function (req, res) {
     //handle errors from this
-    const result = await readFile('./toDo.json');
-
-    const items = JSON.parse(result);
 
     const newItem = req.body;
-    //YUCK! deffo wanna bring typescipt in
-    //also, pull this out to some kinda service because it's deffo gonna be changed/swapped out for db intergration
-    if (items.length > 0) {
-        newItem.Id = items[items.length - 1].Id + 1;
-    } else {
-        newItem.Id = 0;
-    }
+    connectNewClient()
 
-    items.push(newItem)
+    client.query(
+        `INSERT INTO items(name, complete, priority, "categoryId") 
+        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}')`
+        , (clientErr, clientRes) => {
+        if (clientErr) {
+            //do all this error handling better!
+            res.send(500);
 
-    //handle errors from this
-    await writeFile('./toDo.json', JSON.stringify(items));
-    res.send(200);
+            console.log(clientErr.stack)
+            client.end();
+        } else {
+            client.end();
+            res.send(clientRes);
+        }
+    })
+
+    console.log('done')
 });
 
 app.put('/item', async function (req, res) {
     //handle errors from this
-    const result = await readFile('./toDo.json');
+    const updatedItem = req.body;
+    connectNewClient()
 
-    const items = JSON.parse(result);
+    client.query(
+        `UPDATE items SET name = '${updatedItem.Name}',
+         complete = '${updatedItem.Complete ? '1' : '0'}', 
+         priority = '${updatedItem.Priority.toString()}', 
+         "categoryId" = '${updatedItem.CategoryId.toString()}'
+         where id = ${updatedItem.Id.toString()}`
+        , (clientErr, clientRes) => {
+        if (clientErr) {
+            client.end();
 
-    //some proper mapping may be better
-    updatedItem = req.body;
-    for (var i in items) {
-        if (items[i].Id == updatedItem.Id) {
-            items[i] = updatedItem;
-           break;
+            //do all this error handling better!
+            res.send(500);
+
+            console.log(clientErr.stack)
+        } else {
+            client.end();
+            res.send(clientRes);
         }
-      }
-
-    //handle errors from this
-    await writeFile('./toDo.json', JSON.stringify(items));
-    res.send(200);
+    })
 });
 
 app.delete('/item', async function (req, res) {
     //handle errors from this
-    const result = await readFile('./toDo.json');
 
-    const items = JSON.parse(result);
+    connectNewClient()
 
-    itemId = req.body;
+    client.query(
+        `DELETE from items where id = ${req.body.Id.toString()}`
+        , (clientErr, clientRes) => {
+        if (clientErr) {
+            client.end();
 
-    //don't mutate the original array, but this is quick for mvp
-    filteredItems = items.filter(function( item ) {
-        return item.Id !== itemId.Id;
-    });
+            //do all this error handling better!
+            res.send(500);
 
-    //handle errors from this
-    await writeFile('./toDo.json', JSON.stringify(filteredItems));
-    res.send(200);
+            console.log(clientErr.stack)
+        } else {
+            client.end();
+            res.send(clientRes);
+        }
+    })
 });
 
 app.get('/categories', async function (req, res) {
