@@ -21,30 +21,24 @@ const compiler = webpack(config);
 
 let client;
 
+console.log('process.env', process.env)
 console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
 
+const connectionString = process.env.DATABASE_URL ? process.env.DATABASE_URL : 'postgresql://postgres:hwaaw488@localhost:5432/todo'
+//http://127.0.0.1:54850/
+
 const connectNewClient = () => {
-    if (process.env.DATABASE_URL) {
-        client = new Client({
-            connectionString: process.env.DATABASE_URL
-        });
-    } else {
-        client = new Client({
-            user: 'postgres',
-            host: 'localhost',
-            password: 'hwaaw488',
-            port: 5432,
-            database: 'todo'
-        });
-    }
+    client = new Client({
+        connectionString
+    });
 
     client.connect(err => {
         if (err) {
-          console.error('connection error', err.stack)
+            console.error('connection error', err.stack)
         } else {
-          console.log('connected')
+            console.log('connected')
         }
-      })
+    })
 }
 
 
@@ -73,7 +67,7 @@ app.get('/create', function (req, res) {
 
 app.get('/items', async function (req, res) {
     connectNewClient()
-    
+
     client.query('SELECT * FROM items;', (clientErr, clientRes) => {
         if (clientErr) throw clientErr;
         if (clientRes.rows == null || clientRes.rows.length < 1) {
@@ -103,19 +97,18 @@ app.post('/item', async function (req, res) {
 
     client.query(
         `INSERT INTO items(name, complete, priority, "categoryId") 
-        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}')`
-        , (clientErr, clientRes) => {
-        if (clientErr) {
-            //do all this error handling better!
-            res.send(500);
+        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}')`, (clientErr, clientRes) => {
+            if (clientErr) {
+                //do all this error handling better!
+                res.send(500);
 
-            console.log(clientErr.stack)
-            client.end();
-        } else {
-            client.end();
-            res.send(clientRes);
-        }
-    })
+                console.log(clientErr.stack)
+                client.end();
+            } else {
+                client.end();
+                res.send(clientRes);
+            }
+        })
 
     console.log('done')
 });
@@ -130,20 +123,19 @@ app.put('/item', async function (req, res) {
          complete = '${updatedItem.Complete ? '1' : '0'}', 
          priority = '${updatedItem.Priority.toString()}', 
          "categoryId" = '${updatedItem.CategoryId.toString()}'
-         where id = ${updatedItem.Id.toString()}`
-        , (clientErr, clientRes) => {
-        if (clientErr) {
-            client.end();
+         where id = ${updatedItem.Id.toString()}`, (clientErr, clientRes) => {
+            if (clientErr) {
+                client.end();
 
-            //do all this error handling better!
-            res.send(500);
+                //do all this error handling better!
+                res.send(500);
 
-            console.log(clientErr.stack)
-        } else {
-            client.end();
-            res.send(clientRes);
-        }
-    })
+                console.log(clientErr.stack)
+            } else {
+                client.end();
+                res.send(clientRes);
+            }
+        })
 });
 
 app.delete('/item', async function (req, res) {
@@ -152,20 +144,19 @@ app.delete('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `DELETE from items where id = ${req.body.Id.toString()}`
-        , (clientErr, clientRes) => {
-        if (clientErr) {
-            client.end();
+        `DELETE from items where id = ${req.body.Id.toString()}`, (clientErr, clientRes) => {
+            if (clientErr) {
+                client.end();
 
-            //do all this error handling better!
-            res.send(500);
+                //do all this error handling better!
+                res.send(500);
 
-            console.log(clientErr.stack)
-        } else {
-            client.end();
-            res.send(clientRes);
-        }
-    })
+                console.log(clientErr.stack)
+            } else {
+                client.end();
+                res.send(clientRes);
+            }
+        })
 });
 
 app.get('/categories', async function (req, res) {
