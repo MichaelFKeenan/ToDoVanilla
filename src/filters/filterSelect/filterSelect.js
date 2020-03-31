@@ -22,10 +22,6 @@ export class FilterSelect extends HTMLElement {
       this.SelectEl.appendChild(newOptionEl);
     });
 
-    const newOptionEl = document.createElement('option');
-    newOptionEl.innerHTML = 'All';
-    this.SelectEl.appendChild(newOptionEl);
-
     //add an option for each filter.options
 
     this.SelectEl.addEventListener('change', (event) => {

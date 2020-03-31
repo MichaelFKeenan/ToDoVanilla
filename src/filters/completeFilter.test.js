@@ -5,6 +5,11 @@ test('filter is inactive by default', () => {
     expect(completeFilter.active).toBe(false);
 });
 
+test('filter is active if passed true', () => {
+    const completeFilter = new CompleteFilter(true);
+    expect(completeFilter.active).toBe(true);
+});
+
 describe('given filter is inactive', () => {
     const completeFilter = new CompleteFilter();
 

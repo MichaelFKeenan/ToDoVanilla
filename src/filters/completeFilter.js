@@ -4,7 +4,7 @@ export default class CompleteFilter {
     active;
     filter;
     type;
-    constructor({isActive}) {
+    constructor(isActive = false) {
         this.type = "button";
         this.htmlIdentifier = "complete-filter-btn";
         this.name = "complete filter";

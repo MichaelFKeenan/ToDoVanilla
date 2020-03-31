@@ -19,7 +19,7 @@ let toDoItems = []
 const filters = [
     FilterFactory.createFilter('HighPriorityFilter', false),
     FilterFactory.createFilter('CompleteFilter', true),
-    FilterFactory.createFilter('CategoryFilter', 0)
+    FilterFactory.createFilter('CategoryFilter')
 ]
 
 export const init = async () => {
@@ -32,18 +32,31 @@ export const init = async () => {
     PubSub.subscribe("filterListEvent", filterList);
 }
 
+
+const getFilteredIds = () => FilterItems(toDoItems, filters).map((item) => item.Id);
+
 const generateList = () => {
     const itemList = document.getElementById('item-list');
 
+    const filteredIds = getFilteredIds();
+
     toDoItems.forEach((item) => {
         const newListItem = new ListItem(item);
+
+        if (filteredIds.includes(item.Id)) {
+            newListItem.style.display = "block";
+        } else {
+            newListItem.style.display = "none";
+        }
+        
         itemList.appendChild(newListItem);
     });
 }
 
 //How do we test this kind of stuff?! Karma?
+//abstract hiding and showing of items so we can create a mock/sub and check calls? hmmm not sure
 const filterList = () => {
-    const filteredIds = FilterItems(toDoItems, filters).map((item) => item.Id);
+    const filteredIds = getFilteredIds();
 
     const itemsInDom = document.getElementsByClassName('toDoItem');
 
@@ -69,6 +82,7 @@ const registerFilters = () => {
             //filter should have a list of options as well as selected value
             filterEl = new FilterSelect(filter);
         }
+        
         filtersContainer.appendChild(filterEl);
     })
 }

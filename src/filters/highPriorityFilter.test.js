@@ -5,6 +5,11 @@ test('filter is inactive by default', () => {
     expect(highPriorityFilter.active).toBe(false);
 });
 
+test('filter is active if passed true', () => {
+    const highPriorityFilter = new HighPriorityFilter(true);
+    expect(highPriorityFilter.active).toBe(true);
+});
+
 describe('given filter is inactive', () => {
     const highPriorityFilter = new HighPriorityFilter();
 

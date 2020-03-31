@@ -3,7 +3,7 @@ export default class HighPriorityFilter {
     name;
     active;
     type;
-    constructor({isActive}) {
+    constructor(isActive = false) {
         this.type = "button";
         this.htmlIdentifier = "high-priority-filter-btn";
         this.name = "high priority filter";
