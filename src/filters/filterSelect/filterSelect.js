@@ -29,7 +29,6 @@ export class FilterSelect extends HTMLElement {
     //add an option for each filter.options
 
     this.SelectEl.addEventListener('change', (event) => {
-      console.log('change', event.target.value);
       filter.value = event.target.value;
       PubSub.publish("filterListEvent")
     })

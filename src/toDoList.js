@@ -60,7 +60,6 @@ const registerFilters = () => {
     const filtersContainer = document.getElementById('filters-container');
 
     filters.forEach((filter) => {
-        console.log(filter)
         let filterEl;
         if(filter.type == "button"){
             filterEl = new FilterButton(filter);

@@ -106,8 +106,6 @@ app.post('/item', async function (req, res) {
                 res.send(clientRes);
             }
         })
-
-    console.log('done')
 });
 
 app.put('/item', async function (req, res) {

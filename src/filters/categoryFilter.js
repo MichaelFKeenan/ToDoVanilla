@@ -23,7 +23,6 @@ export default class CategoryFilter {
             }
         ]
         this.filter = (toDoItem) => {
-            console.log(this.value)
             return this.value != 'All' ? toDoItem.CategoryId == this.value : true;
         }
     }
