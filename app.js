@@ -21,19 +21,10 @@ const compiler = webpack(config);
 
 let client;
 
-console.log('process', process)
-console.log('process.env', process.env)
-console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
-
+//move this into local env var
 const connectionString = process.env.DATABASE_URL ? process.env.DATABASE_URL : 'postgresql://postgres:hwaaw488@localhost:5432/todo'
-//postgres://obothrggfxhzym:8063a30957ae47a6c8086980f360c8116fd26a2714f9075f5a591f707618e41a@ec2-54-195-247-108.eu-west-1.compute.amazonaws.com:5432/dbn1q9hvr2m6ej
-
 
 const connectNewClient = () => {
-    console.log('process', process)
-console.log('process.env', process.env)
-console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
-console.log('connectionString', connectionString)
     client = new Client({
         connectionString
     });
@@ -74,7 +65,7 @@ app.get('/create', function (req, res) {
 app.get('/items', async function (req, res) {
     connectNewClient()
 
-    client.query('SELECT * FROM Items;', (clientErr, clientRes) => {
+    client.query('SELECT * FROM items;', (clientErr, clientRes) => {
         if (clientErr) throw clientErr;
         if (clientRes.rows == null || clientRes.rows.length < 1) {
             //handle no rows
@@ -102,7 +93,7 @@ app.post('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `INSERT INTO Items(name, complete, priority, "categoryId") 
+        `INSERT INTO items(name, complete, priority, "categoryId") 
         VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}')`, (clientErr, clientRes) => {
             if (clientErr) {
                 //do all this error handling better!
@@ -125,7 +116,7 @@ app.put('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `UPDATE Items SET name = '${updatedItem.Name}',
+        `UPDATE items SET name = '${updatedItem.Name}',
          complete = '${updatedItem.Complete ? '1' : '0'}', 
          priority = '${updatedItem.Priority.toString()}', 
          "categoryId" = '${updatedItem.CategoryId.toString()}'
@@ -150,7 +141,7 @@ app.delete('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `DELETE from Items where id = ${req.body.Id.toString()}`, (clientErr, clientRes) => {
+        `DELETE from items where id = ${req.body.Id.toString()}`, (clientErr, clientRes) => {
             if (clientErr) {
                 client.end();
 
