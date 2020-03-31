@@ -30,6 +30,10 @@ const connectionString = process.env.DATABASE_URL ? process.env.DATABASE_URL : '
 
 
 const connectNewClient = () => {
+    console.log('process', process)
+console.log('process.env', process.env)
+console.log('process.env.DATABASE_URL', process.env.DATABASE_URL)
+console.log('connectionString', connectionString)
     client = new Client({
         connectionString
     });
