@@ -8,11 +8,20 @@
     }
     .item__section {
       /*Make these variables so we can share with other list items*/
-      width: 24%;
+      width: 30%;
       display: inline-block;
       text-align: center;
+      vertical-align: middle;
+    }
+    .item__section--buttons {
+      text-align: right;
+    }
+    .item-section__btn {
+      max-width: 50%;
     }
   </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
   <div id="root">
     <li class="item" id="root__item">
       <div class="item__section">
@@ -21,12 +30,12 @@
       <div class="item__section">
           <span id="item__priority"></span>
       </div>
-      <div class="item__section">
-          <button id="item-complete-btn">
-            Complete
+      <div class="item__section item__section--buttons">
+          <button id="item-complete-btn" class="item-section__btn">
+            <i id="item-complete-btn__display" class="material-icons">done</i>
           </button>
-          <button id="item-delete-btn">
-            Delete
+          <button id="item-delete-btn" class="item-section__btn">
+            <i class="material-icons">delete</i>
           </button>
       </div>
     </li>

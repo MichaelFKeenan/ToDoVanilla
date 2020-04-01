@@ -8,6 +8,7 @@ templateEl.innerHTML = template;
 export class ListItem extends HTMLElement {
   NameEl;
   CompleteButtonEl;
+  CompleteButtonDisplayEl;
   DeleteButtonEl;
   PriorityEl;
   Item;
@@ -37,6 +38,11 @@ export class ListItem extends HTMLElement {
     if (this.CompleteButtonEl === null) {
       return;
     }
+    
+    this.CompleteButtonDisplayEl = shadow.getElementById('item-complete-btn__display');
+    if (this.CompleteButtonDisplayEl === null) {
+      return;
+    }
 
     this.DeleteButtonEl = shadow.getElementById('item-delete-btn');
     if (this.DeleteButtonEl === null) {
@@ -51,10 +57,15 @@ export class ListItem extends HTMLElement {
       //create a new item instead i think
       this.Item.Complete = !this.Item.Complete;
       //do something with this response?
-      await updateItem(this.Item);
-      this.updateCompleteElAndBtnText();
-      //may be better to totally re-do list instead
-      PubSub.publish("filterListEvent");
+      var res = await updateItem(this.Item);
+      if(res.status == 200){
+        //may be better to totally re-do list instead
+        this.updateCompleteElAndBtnText();
+        PubSub.publish("filterListEvent");
+      }
+      else {
+        alert('uh ooohhh')
+      }
     })
 
     //move the guts of this into a function out of constructor
@@ -75,7 +86,7 @@ export class ListItem extends HTMLElement {
   }
 
   updateCompleteElAndBtnText = () => {
-    this.CompleteButtonEl.textContent = this.Item.Complete === true ? 'Complete' : 'Incomplete';
+    this.CompleteButtonDisplayEl.textContent = this.Item.Complete === true ? 'clear' : 'done';
   }
 }
 window.customElements.define('list-item', ListItem);
