@@ -46,6 +46,7 @@ export class ListItem extends HTMLElement {
     this.updateCompleteElAndBtnText();
     this.PriorityEl.textContent = this.Item.Priority.toString();
 
+    //move the guts of this into a function out of constructor
     this.CompleteButtonEl.addEventListener('click', async () => {
       //create a new item instead i think
       this.Item.Complete = !this.Item.Complete;
@@ -56,11 +57,20 @@ export class ListItem extends HTMLElement {
       PubSub.publish("filterListEvent");
     })
 
+    //move the guts of this into a function out of constructor
     this.DeleteButtonEl.addEventListener('click', async () => {
-      //do something with this response?
-      await deleteItem(this.Item.Id);
+      this.DeleteButtonEl.disabled = true;
+      var res = await deleteItem(this.Item.Id);
 
-      //reeeeally need to update list to reflect this... pubsub?
+      if(res.status == 200)
+      {
+        this.remove();
+        return;
+      }
+      
+      alert('aaaaah an error! tell michael!')
+      
+      this.DeleteButtonEl.disabled = false;
     })
   }
 

@@ -3,6 +3,7 @@ import { addItem } from './itemsService.js'
 export const init = async () => {
     const submitBtn = document.getElementById('item-submit');
     submitBtn.addEventListener('click', async () => {
+        submitBtn.disabled = true;
         //validation?
         const nameValue = document.getElementById('item-name').value;
         const priorityValue = document.getElementById('item-priority').value;
@@ -14,8 +15,16 @@ export const init = async () => {
             Priority: Number(priorityValue),
             CategoryId: Number(categoryValue)
         }
-        //do something with this response?
-        //handle errors, or return to list with success message
-        await addItem(newItem);
+
+        //find a much nicer way to do this!
+        var res = await addItem(newItem);
+        if(res.status == 200)
+        {
+            window.location.replace("/")
+        }
+        else {
+            alert('aaaaah an error! tell michael!')
+        };
+        submitBtn.disabled = false;
     })
 }
