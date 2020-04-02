@@ -6,23 +6,22 @@
     <title>To Do</title>
     <style>
         .page-container {
-            max-width: 800px;
-            margin: auto;
+            margin-top:20px;
         }
 
         .item-list-container {
             margin-top: 20px;
-            max-height: 80%;
-            max-height: 80vh;
+            max-height: 70%;
+            max-height: 70vh;
             height: auto;
             overflow-y: auto;
-            position:relative;
+            position: relative;
         }
 
         .item-list {
             padding: 0;
             list-style-type: none;
-            position:relative;
+            position: relative;
         }
 
         .item-list__header-row {
@@ -42,12 +41,18 @@
             margin-top: 10px;
         }
     </style>
-    
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <div class="page-container">
+    <div class="container-md page-container">
+        <!-- move all these btns into some kind of fixed footer? -->
+        <div id="filters-container" class="buttons-container">
+        </div>
+
         <div class="item-list-container">
             <ul id="item-list" class="item-list">
                 <li class="item-list__header-row">
@@ -62,19 +67,14 @@
                 </li>
             </ul>
         </div>
-        
-        <!-- move all these btns into some kind of fixed footer? -->
-        <div id="filters-container" class="buttons-container">
 
-        </div>
         <div class="buttons-container">
             <a href="/create">
-                <button>
-                    <i class="material-icons">add</i>
-                </button>
+                <button class="btn btn-success"><i class="material-icons">add</i></button>
             </a>
         </div>
     </div>
+
     <script src="index.js"></script>
 </body>
 

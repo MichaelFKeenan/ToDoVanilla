@@ -20,6 +20,9 @@
       max-width: 50%;
     }
   </style>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <div id="root">
@@ -31,10 +34,11 @@
           <span id="item__priority"></span>
       </div>
       <div class="item__section item__section--buttons">
-          <button id="item-complete-btn" class="item-section__btn">
+          <button id="item-complete-btn" class="btn btn-primary item-section__btn">
             <i id="item-complete-btn__display" class="material-icons">done</i>
           </button>
-          <button id="item-delete-btn" class="item-section__btn">
+
+          <button id="item-delete-btn" class="btn btn-danger item-section__btn">
             <i class="material-icons">delete</i>
           </button>
       </div>
