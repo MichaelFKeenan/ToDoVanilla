@@ -82,10 +82,12 @@ const mapItem = (item) => {
         "Name": item.name,
         'Complete': item.complete == "1" ? true : false,
         'Priority': item.priority,
-        'CategoryId': item.categoryId
+        'CategoryId': item.categoryId,
+        'Description': item.description
     };
 }
 
+//could really do with a way of testing this stuff?
 app.post('/item', async function (req, res) {
     //handle errors from this
 
@@ -93,8 +95,8 @@ app.post('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `INSERT INTO items(name, complete, priority, "categoryId") 
-        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}')`, (clientErr, clientRes) => {
+        `INSERT INTO items(name, complete, priority, "categoryId", description) 
+        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}', '${newItem.Description}')`, (clientErr, clientRes) => {
             if (clientErr) {
                 //do all this error handling better!
                 res.send(500);
@@ -117,7 +119,8 @@ app.put('/item', async function (req, res) {
         `UPDATE items SET name = '${updatedItem.Name}',
          complete = '${updatedItem.Complete ? '1' : '0'}', 
          priority = '${updatedItem.Priority.toString()}', 
-         "categoryId" = '${updatedItem.CategoryId.toString()}'
+         "categoryId" = '${updatedItem.CategoryId.toString()}',
+         description = '${updatedItem.Description}'
          where id = ${updatedItem.Id.toString()}`, (clientErr, clientRes) => {
             if (clientErr) {
                 client.end();

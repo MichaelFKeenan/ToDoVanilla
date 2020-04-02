@@ -8,12 +8,14 @@ export const init = async () => {
         const nameValue = document.getElementById('item-name').value;
         const priorityValue = document.getElementById('item-priority').value;
         const categoryValue = document.getElementById('item-category').value;
+        const descriptionValue = document.getElementById('item-description').value;
         const newItem = {
             Id: null,
             Name: nameValue,
             Complete: false,
             Priority: Number(priorityValue),
-            CategoryId: Number(categoryValue)
+            CategoryId: Number(categoryValue),
+            Description: descriptionValue
         }
 
         //find a much nicer way to do this!
