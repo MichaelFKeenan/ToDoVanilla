@@ -1,46 +1,46 @@
-
 <style>
-    .item {
-      list-style: none;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      border-top: 1px solid #000;
-    }
-    .item__section {
-      /*Make these variables so we can share with other list items*/
-      width: 30%;
-      display: inline-block;
-      text-align: center;
-      vertical-align: middle;
-    }
-    .item__section--buttons {
-      text-align: right;
-    }
-    .item-section__btn {
-      max-width: 50%;
-    }
-  </style>
-  
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  .item {
+    list-style: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #000;
+  }
+
+  .item__section {
+    /*Make these variables so we can share with other list items*/
+    text-align: center;
+  }
+
+  .item__section--buttons {
+    text-align: right;
+  }
+</style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
-  <div id="root">
-    <li class="item" id="root__item">
-      <div class="item__section">
-          <span id="item__name"></span>
-      </div>
-      <div class="item__section">
-          <span id="item__priority"></span>
-      </div>
-      <div class="item__section item__section--buttons">
-          <button id="item-complete-btn" class="btn btn-primary item-section__btn">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div id="root">
+  <li class="item row" id="root__item">
+    <div class="item__section col">
+      <span id="item__name"></span>
+    </div>
+    <div class="item__section col">
+      <span id="item__priority"></span>
+    </div>
+    <div class="item__section col item__section--buttons">
+      <div class="row">
+        <div class="col">
+          <button id="item-complete-btn" class="btn btn-primary">
             <i id="item-complete-btn__display" class="material-icons">done</i>
           </button>
-
-          <button id="item-delete-btn" class="btn btn-danger item-section__btn">
+        </div>
+        <div class="col">
+          <button id="item-delete-btn" class="btn btn-danger">
             <i class="material-icons">delete</i>
           </button>
+        </div>
       </div>
-    </li>
-  </div>
+    </div>
+  </li>
+</div>

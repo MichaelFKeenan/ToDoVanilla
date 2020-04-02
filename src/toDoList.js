@@ -22,7 +22,19 @@ const filters = [
     FilterFactory.createFilter('CategoryFilter')
 ]
 
+let isFilterMenuOpen = false;
+
+let filterMenuContainerEl;
+let filterMenuRowEl;
+let menuToggleBtnEl;
+let menuToggleBtnIconEl;
+
 export const init = async () => {
+    filterMenuContainerEl = document.getElementById('filters-container');
+    filterMenuRowEl = document.getElementById('filters-row');
+    menuToggleBtnEl = document.getElementById('toggle-menu-btn');
+    menuToggleBtnIconEl = document.getElementById('toggle-menu-btn-icon');
+
     toDoItems = await getAllItems();
 
     registerFilters();
@@ -30,8 +42,21 @@ export const init = async () => {
     generateList();
 
     PubSub.subscribe("filterListEvent", filterList);
+
+    menuToggleBtnEl.addEventListener('click', toggleFilterMenu);
 }
 
+const toggleFilterMenu = () => {
+    if (isFilterMenuOpen) {
+        //use a class for this stuff instead?
+        filterMenuContainerEl.classList.add('hidden');
+        menuToggleBtnIconEl.innerHTML = 'keyboard_arrow_down'
+    } else {
+        filterMenuContainerEl.classList.remove('hidden');
+        menuToggleBtnIconEl.innerHTML = 'keyboard_arrow_up'
+    }
+    isFilterMenuOpen = !isFilterMenuOpen;
+}
 
 const getFilteredIds = () => FilterItems(toDoItems, filters).map((item) => item.Id);
 
@@ -44,11 +69,11 @@ const generateList = () => {
         const newListItem = new ListItem(item);
 
         if (filteredIds.includes(item.Id)) {
-            newListItem.style.display = "block";
+            newListItem.classList.remove('hidden');
         } else {
-            newListItem.style.display = "none";
+            newListItem.classList.add('hidden');
         }
-        
+
         itemList.appendChild(newListItem);
     });
 }
@@ -62,27 +87,27 @@ const filterList = () => {
 
     for (var i = 0; i < itemsInDom.length; i++) {
         if (filteredIds.includes(itemsInDom[i].attributes.itemId)) {
-            itemsInDom[i].style.display = "block";
+            itemsInDom[i].classList.remove('hidden');
         } else {
-            itemsInDom[i].style.display = "none";
+            itemsInDom[i].classList.add('hidden');
         }
     }
 }
 
 const registerFilters = () => {
-    const filtersContainer = document.getElementById('filters-container');
-
     filters.forEach((filter) => {
         let filterEl;
-        if(filter.type == "button"){
+        if (filter.type == "button") {
             filterEl = new FilterButton(filter);
         }
-        if(filter.type == "select"){
+        if (filter.type == "select") {
             //need to build this
             //filter should have a list of options as well as selected value
             filterEl = new FilterSelect(filter);
         }
-        
-        filtersContainer.appendChild(filterEl);
+        const newCol = document.createElement('div');
+        newCol.classList.add('col');
+        newCol.appendChild(filterEl);
+        filterMenuRowEl.appendChild(newCol);
     })
 }

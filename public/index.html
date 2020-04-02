@@ -5,17 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>To Do</title>
     <style>
-        .page-container {
-            margin-top:20px;
-        }
-
         .item-list-container {
-            margin-top: 20px;
-            max-height: 70%;
-            max-height: 70vh;
-            height: auto;
-            overflow-y: auto;
-            position: relative;
+            margin-top: 10px;
         }
 
         .item-list {
@@ -31,14 +22,26 @@
 
         .item-list__header {
             /*Make these variables so we can share with other list items*/
-            width: 30%;
-            display: inline-block;
             text-align: center;
             margin-bottom: 10px;
         }
 
         .buttons-container {
-            margin-top: 10px;
+            padding-top:10px;
+            padding-bottom:10px;
+        }
+
+        .filter-col {
+            text-align: right;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .sticky-header {
+            background: #fff;
+            border-bottom: 1px solid #000;
         }
     </style>
 
@@ -48,27 +51,43 @@
 </head>
 
 <body>
-    <div class="container-md page-container">
-        <div class="buttons-container">
-            <a href="/create">
-                <button class="btn btn-success"><i class="material-icons">add</i></button>
-            </a>
+    <div class="container-md">
+        <div class="sticky-top sticky-header row">
+            <div class="col">
+                <div class="buttons-container row">
+                    <div class="col">
+                        <a href="/create">
+                            <button class="btn btn-success"><i class="material-icons">add</i></button>
+                        </a>
+                    </div>
+                    <div class="col filter-col">
+                        <button id="toggle-menu-btn" class="btn btn-primary">
+                            <!-- use a class here instead? -->
+                            <i id="toggle-menu-btn-icon" class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                    </div>
+                </div>
+        
+                <!-- move all these into a callapsable menu? -->
+                <div id="filters-container" class="buttons-container hidden">
+                    <div id="filters-row" class="row">
+        
+                    </div>
+                </div>
+            </div>
+            
         </div>
-
-        <!-- move all these into a callapsable menu? -->
-        <div id="filters-container" class="buttons-container">
-        </div>
-
+        
         <div class="item-list-container">
             <ul id="item-list" class="item-list">
-                <li class="item-list__header-row">
-                    <div class="item-list__header">
+                <li class="item-list__header-row row">
+                    <div class="item-list__header col">
                         <strong>Name</strong>
                     </div>
-                    <div class="item-list__header">
+                    <div class="item-list__header col">
                         <strong>Priority</strong>
                     </div>
-                    <div class="item-list__header">
+                    <div class="item-list__header col">
                     </div>
                 </li>
             </ul>
