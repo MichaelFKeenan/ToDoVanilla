@@ -1,12 +1,14 @@
 import template from './template.html';
-import { updateItem, deleteItem } from '../itemsService.js'
+import { toggleItemComplete, deleteItem } from '../itemsService.js'
 import PubSub from '../pubsub.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
 
 export class ListItem extends HTMLElement {
+  CategoryEl;
   NameEl;
+  DecsriptionEl;
   CompleteButtonEl;
   CompleteButtonDisplayEl;
   DeleteButtonEl;
@@ -21,13 +23,25 @@ export class ListItem extends HTMLElement {
     this.Item = itemData;
 
     this.className = 'toDoItem';
-    this.attributes.itemId = this.Item.Id
+    this.attributes.Id = this.Item.Id
 
     this.NameEl = shadow.getElementById('item__name');
     if (this.NameEl === null) {
       return;
     }
     this.NameEl.textContent = this.Item.Name;
+
+    this.DescriptionEl = shadow.getElementById('item__description');
+    if (this.DescriptionEl === null) {
+      return;
+    }
+    this.DescriptionEl.textContent = this.Item.Description;
+
+    this.CategoryEl = shadow.getElementById('item__category');
+    if (this.CategoryEl === null) {
+      return;
+    }
+    this.CategoryEl.textContent = this.Item.CategoryName;
 
     this.PriorityEl = shadow.getElementById('item__priority');
     if (this.PriorityEl === null) {
@@ -48,16 +62,17 @@ export class ListItem extends HTMLElement {
     if (this.DeleteButtonEl === null) {
       return;
     }
+    this.PriorityEl.textContent = this.Item.Priority.toString();
 
     this.updateCompleteElAndBtnText();
-    this.PriorityEl.textContent = this.Item.Priority.toString();
 
     //move the guts of this into a function out of constructor
     this.CompleteButtonEl.addEventListener('click', async () => {
-      //create a new item instead i think
+      
       this.Item.Complete = !this.Item.Complete;
+
       //do something with this response?
-      var res = await updateItem(this.Item);
+      var res = await toggleItemComplete(this.Item.Id, this.Item.Complete);
       if(res.status == 200){
         //may be better to totally re-do list instead
         this.updateCompleteElAndBtnText();

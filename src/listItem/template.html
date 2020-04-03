@@ -3,12 +3,7 @@
     list-style: none;
     padding-top: 10px;
     padding-bottom: 10px;
-    border-top: 1px solid #000;
-  }
-
-  .item__section {
-    /*Make these variables so we can share with other list items*/
-    text-align: center;
+    border-bottom: 1px solid #000;
   }
 
   .item__section--buttons {
@@ -22,23 +17,44 @@
 
 <div id="root">
   <li class="item row" id="root__item">
-    <div class="item__section col">
-      <span id="item__name"></span>
-    </div>
-    <div class="item__section col">
-      <span id="item__priority"></span>
-    </div>
-    <div class="item__section col item__section--buttons">
+    <div class="container">
       <div class="row">
-        <div class="col">
-          <button id="item-complete-btn" class="btn btn-primary">
-            <i id="item-complete-btn__display" class="material-icons">done</i>
-          </button>
+        <div class="col-9">
+          <div class="row">
+            <div class="col">
+              <i><span id="item__category"></span></i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item__section col">
+              <p><b><span id="item__name"></span></b></p>
+            </div>
+            <div class="item__section col">
+              Priority: <span id="item__priority"></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p><i><span id="item__description"></span></i></p>
+            </div>
+          </div>
         </div>
-        <div class="col">
-          <button id="item-delete-btn" class="btn btn-danger">
-            <i class="material-icons">delete</i>
-          </button>
+        <div class="col-3">
+          <div class="item__section item__section--buttons">
+            <div class="row">
+              <div class="col">
+                <button id="item-complete-btn" class="btn btn-primary">
+                  <!-- find a way to make these icons smaller! -->
+                  <i id="item-complete-btn__display" class="material-icons">done</i>
+                </button>
+              </div>
+              <div class="col">
+                <button id="item-delete-btn" class="btn btn-danger">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -86,7 +86,7 @@ const filterList = () => {
     const itemsInDom = document.getElementsByClassName('toDoItem');
 
     for (var i = 0; i < itemsInDom.length; i++) {
-        if (filteredIds.includes(itemsInDom[i].attributes.itemId)) {
+        if (filteredIds.includes(itemsInDom[i].attributes.Id)) {
             itemsInDom[i].classList.remove('hidden');
         } else {
             itemsInDom[i].classList.add('hidden');

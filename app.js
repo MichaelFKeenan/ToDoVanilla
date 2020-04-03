@@ -61,31 +61,32 @@ app.get('/create', function (req, res) {
 });
 
 //extract all this api stuff
-
 app.get('/items', async function (req, res) {
     connectNewClient()
 
-    client.query('SELECT * FROM items;', (clientErr, clientRes) => {
+    client.query(itemsDisplayQuery, (clientErr, clientRes) => {
         if (clientErr) throw clientErr;
         if (clientRes.rows == null || clientRes.rows.length < 1) {
             //handle no rows
         }
-        const mappedItems = clientRes.rows.map(mapItem);
+        const mappedItems = clientRes.rows.map(mapItemDisplay);
         client.end();
         res.json(mappedItems)
     });
 });
 
-const mapItem = (item) => {
-    return {
-        "Id": item.id,
-        "Name": item.name,
-        'Complete': item.complete == "1" ? true : false,
-        'Priority': item.priority,
-        'CategoryId': item.categoryId,
-        'Description': item.description
-    };
-}
+const itemsDisplayQuery = `
+SELECT 
+items.id as item_id,
+items.name as item_name,
+items.complete,
+items.priority,
+items.description,
+items."categoryId" as item_categoryid,
+categories.id as category_id,
+categories.name as category_name
+FROM items INNER JOIN categories ON items."categoryId" = categories.id;
+`
 
 //could really do with a way of testing this stuff?
 app.post('/item', async function (req, res) {
@@ -110,18 +111,13 @@ app.post('/item', async function (req, res) {
         })
 });
 
-app.put('/item', async function (req, res) {
+app.put('/toggleItemComplete', async function (req, res) {
     //handle errors from this
-    const updatedItem = req.body;
     connectNewClient()
-
+    
     client.query(
-        `UPDATE items SET name = '${updatedItem.Name}',
-         complete = '${updatedItem.Complete ? '1' : '0'}', 
-         priority = '${updatedItem.Priority.toString()}', 
-         "categoryId" = '${updatedItem.CategoryId.toString()}',
-         description = '${updatedItem.Description}'
-         where id = ${updatedItem.Id.toString()}`, (clientErr, clientRes) => {
+        `UPDATE items SET complete = '${req.body.isComplete ? '1' : '0'}'
+         where id = ${req.body.completedItemId.toString()}`, (clientErr, clientRes) => {
             if (clientErr) {
                 client.end();
 
@@ -158,13 +154,37 @@ app.delete('/item', async function (req, res) {
 });
 
 app.get('/categories', async function (req, res) {
-    await fs.readFile('./categories.json', function read(err, data) {
-        if (err) {
-            throw err;
+    connectNewClient()
+
+    client.query('SELECT * FROM categories;', (clientErr, clientRes) => {
+        if (clientErr) throw clientErr;
+        if (clientRes.rows == null || clientRes.rows.length < 1) {
+            //handle no rows
         }
-        res.json(JSON.parse(data));
+        const mappedCategories = clientRes.rows.map(mapCategory);
+        client.end();
+        res.json(mappedCategories)
     });
 });
+
+const mapItemDisplay = (item) => {
+    return {
+        "Id": item.item_id,
+        "Name": item.item_name,
+        'Complete': item.complete == "1" ? true : false,
+        'Priority': item.priority,
+        'Description': item.description,
+        'CategoryId': item.item_categoryid,
+        'CategoryName': item.category_name
+    };
+}
+
+const mapCategory = (category) => {
+    return {
+        "Id": category.id,
+        "Name": category.name,
+    };
+}
 
 app.listen(process.env.PORT || port, () => {
     console.log('Server started on port:' + port);

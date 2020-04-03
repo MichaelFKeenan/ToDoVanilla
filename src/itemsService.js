@@ -28,10 +28,10 @@ export const addItem = async (newItem) => {
     return await response;
 }
 
-export const updateItem = async (updatedItem) => {
+export const toggleItemComplete = async (completedItemId, isComplete) => {
     //validate here?
 
-    const response = await fetch(apiUrl + `item`, {
+    const response = await fetch(apiUrl + `toggleItemComplete`, {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -42,7 +42,7 @@ export const updateItem = async (updatedItem) => {
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify(updatedItem) // body data type must match "Content-Type" header
+        body: JSON.stringify({'completedItemId': completedItemId, 'isComplete': isComplete}) // body data type must match "Content-Type" header
     });
 
     //handle errors here?

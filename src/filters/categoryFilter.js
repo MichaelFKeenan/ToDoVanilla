@@ -19,11 +19,11 @@ export default class CategoryFilter {
                 display: 'All'
             },
             {
-                value: 0,
+                value: '0',
                 display: 'misc'
             },
             {
-                value: 1,
+                value: '1',
                 display: 'projects'
             }
         ]
