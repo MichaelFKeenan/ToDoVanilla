@@ -34,7 +34,7 @@ export class ListItem extends HTMLElement {
 
     if (this.Item.CompleteBy !== null) {
       this.CompleteByEl = shadow.getElementById('item__complete-by');
-      this.CompleteByEl.textContent = 'Complete by: ' + this.Item.CompleteBy;
+      this.CompleteByEl.textContent = new Date(this.Item.CompleteBy).toDateString();
     }
 
     if (this.Item.Effort !== null) {

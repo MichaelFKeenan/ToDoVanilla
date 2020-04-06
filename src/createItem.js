@@ -5,18 +5,24 @@ let submitBtn;
 let priorityInput;
 let priorityInputValueDisplay;
 let categorySelect;
+let effortInput;
+let effortInputValueDisplay;
 
 export const init = async () => {
     submitBtn = document.getElementById('item-submit');
     priorityInput = document.getElementById('item-priority');
     priorityInputValueDisplay = document.getElementById('item-priority-value-display');
     categorySelect = document.getElementById('category-select');
+    effortInput = document.getElementById('item-effort');
+    effortInputValueDisplay = document.getElementById('item-effort-value-display');
     
     updateItemPriorityValueDisplay();
+    updateItemEffortValueDisplay();
     
-    priorityInput.addEventListener('change', updateItemPriorityValueDisplay)
+    priorityInput.addEventListener('change', updateItemPriorityValueDisplay);
+    effortInput.addEventListener('change', updateItemEffortValueDisplay);
 
-    submitBtn.addEventListener('click', submitForm)
+    submitBtn.addEventListener('click', submitForm);
 
     await populateCategoriesDropdown();
 }
@@ -36,6 +42,10 @@ const updateItemPriorityValueDisplay = () => {
     priorityInputValueDisplay.innerHTML = priorityInput.value;
 }
 
+const updateItemEffortValueDisplay = () => {
+    effortInputValueDisplay.innerHTML = effortInput.value;
+}
+
 const submitForm = async () => {
     submitBtn.disabled = true;
     //validation?
@@ -43,13 +53,17 @@ const submitForm = async () => {
     const priorityValue = priorityInput.value;
     const categorySelectValue = categorySelect.value;
     const descriptionValue = document.getElementById('item-description').value;
+    const effortValue = effortInput.value;
+    const completeByValue = document.getElementById('complete-by').value;
     const newItem = {
         Id: null,
         Name: nameValue,
         Complete: false,
         Priority: Number(priorityValue),
         CategoryId: Number(categorySelectValue),
-        Description: descriptionValue
+        Description: descriptionValue,
+        Effort: Number(effortValue),
+        CompleteBy: completeByValue
     }
 
     //find a much nicer way to do this!

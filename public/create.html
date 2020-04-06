@@ -21,7 +21,7 @@
                 <input type="text" class="form-control" id="item-name">
             </div>
             <div class="form-group">
-                <label for="item-priority">Priority (0-100)</label>
+                <label for="item-priority">Priority</label>
                 <p>
                      <i id="item-priority-value-display"></i>
                 </p>
@@ -31,6 +31,17 @@
             <div class="form-group">
                 <label for="item-category">Category</label>
                 <select class="form-control" id="category-select"></select>
+            </div>
+            <div class="form-group">
+                <label for="item-category">Complete By</label>
+                <input type="date" class="form-control" id="complete-by"></select>
+            </div>
+            <div class="form-group">
+                <label for="item-effort">Effort</label>
+                <p>
+                     <i id="item-effort-value-display"></i>
+                </p>
+                <input class="form-control-range" type="range" max="100" min="0" id="item-effort">
             </div>
             <div class="form-group">
                 <label for="item-description">Description</label>

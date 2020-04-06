@@ -9,6 +9,10 @@
   .item__section--buttons {
     text-align: right;
   }
+
+  .priority-col {
+    border-right: 1px solid #000;
+  }
 </style>
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -19,7 +23,10 @@
   <li class="item row" id="root__item">
     <div class="container">
       <div class="row">
-        <div class="col-9">
+        <div class="col-2 col-md-1 priority-col">
+          <span id="item__priority"></span>
+        </div>
+        <div class="col-7 col-md-8">
           <div class="row">
             <div class="col">
               <i><span id="item__category"></span></i>
@@ -28,11 +35,8 @@
           <div class="row">
             <div class="item__section col">
               <p><b><span id="item__name"></span></b></p>
-              <p><b><span id="item__complete-by"></span></b></p>
-              <p><b><span id="item__effort"></span></b></p>
-            </div>
-            <div class="item__section col">
-              Priority: <span id="item__priority"></span>
+              <p><span id="item__complete-by"></span></p>
+              <p><span id="item__effort"></span></p>
             </div>
           </div>
           <div class="row">

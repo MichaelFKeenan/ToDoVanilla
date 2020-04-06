@@ -98,8 +98,8 @@ app.post('/item', async function (req, res) {
     connectNewClient()
 
     client.query(
-        `INSERT INTO items(name, complete, priority, "categoryId", description) 
-        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}', '${newItem.Description}')`, (clientErr, clientRes) => {
+        `INSERT INTO items(name, complete, priority, "categoryId", description, effort, "completeBy") 
+        VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}', '${newItem.Description}', '${newItem.Effort.toString()}', ${newItem.CompleteBy != "" ? `'${newItem.CompleteBy}'` : null })`, (clientErr, clientRes) => {
             if (clientErr) {
                 //do all this error handling better!
                 res.send(500);
