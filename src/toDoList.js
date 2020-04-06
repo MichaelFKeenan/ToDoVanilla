@@ -36,6 +36,9 @@ export const init = async () => {
     menuToggleBtnIconEl = document.getElementById('toggle-menu-btn-icon');
 
     toDoItems = await getAllItems();
+    //going to move when more sort types introduced
+    //obviosuly test sorts too
+    toDoItems.sort((a, b) => b.Priority - a.Priority)
 
     registerFilters();
 
