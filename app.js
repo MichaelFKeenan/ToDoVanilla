@@ -82,6 +82,8 @@ items.name as item_name,
 items.complete,
 items.priority,
 items.description,
+items.effort,
+items."completeBy",
 items."categoryId" as item_categoryid,
 categories.id as category_id,
 categories.name as category_name
@@ -174,6 +176,8 @@ const mapItemDisplay = (item) => {
         'Complete': item.complete == "1" ? true : false,
         'Priority': item.priority,
         'Description': item.description,
+        'Effort': item.effort,
+        'CompleteBy': item.completeBy,
         'CategoryId': item.item_categoryid,
         'CategoryName': item.category_name
     };

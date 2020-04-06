@@ -52,8 +52,6 @@ const submitForm = async () => {
         Description: descriptionValue
     }
 
-    console.log(newItem)
-
     //find a much nicer way to do this!
     var res = await addItem(newItem);
     if(res.status == 200)

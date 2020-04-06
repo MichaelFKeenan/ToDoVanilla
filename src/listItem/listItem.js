@@ -8,6 +8,8 @@ templateEl.innerHTML = template;
 export class ListItem extends HTMLElement {
   CategoryEl;
   NameEl;
+  CompleteByEl;
+  EffortEl;
   DecsriptionEl;
   CompleteButtonEl;
   CompleteButtonDisplayEl;
@@ -25,27 +27,34 @@ export class ListItem extends HTMLElement {
     this.className = 'toDoItem';
     this.attributes.Id = this.Item.Id
 
-    this.NameEl = shadow.getElementById('item__name');
-    if (this.NameEl === null) {
-      return;
+    if (this.Item.Name !== null) {
+      this.NameEl = shadow.getElementById('item__name');
+      this.NameEl.textContent = this.Item.Name;
     }
-    this.NameEl.textContent = this.Item.Name;
 
-    this.DescriptionEl = shadow.getElementById('item__description');
-    if (this.DescriptionEl === null) {
-      return;
+    if (this.Item.CompleteBy !== null) {
+      this.CompleteByEl = shadow.getElementById('item__complete-by');
+      this.CompleteByEl.textContent = 'Complete by: ' + this.Item.CompleteBy;
     }
-    this.DescriptionEl.textContent = this.Item.Description;
 
-    this.CategoryEl = shadow.getElementById('item__category');
-    if (this.CategoryEl === null) {
-      return;
+    if (this.Item.Effort !== null) {
+      this.EffortEl = shadow.getElementById('item__effort');
+      this.EffortEl.textContent = 'Effort: ' + this.Item.Effort;
     }
-    this.CategoryEl.textContent = this.Item.CategoryName;
 
-    this.PriorityEl = shadow.getElementById('item__priority');
-    if (this.PriorityEl === null) {
-      return;
+    if (this.Item.Description !== null) {
+      this.DescriptionEl = shadow.getElementById('item__description');
+      this.DescriptionEl.textContent = this.Item.Description;
+    }
+
+    if (this.Item.CategoryName !== null) {
+      this.CategoryEl = shadow.getElementById('item__category');
+      this.CategoryEl.textContent = this.Item.CategoryName;
+    }
+
+    if (this.Item.Priority !== null) {
+      this.PriorityEl = shadow.getElementById('item__priority');
+      this.PriorityEl.textContent = this.Item.Priority.toString();
     }
 
     this.CompleteButtonEl = shadow.getElementById('item-complete-btn');
@@ -62,7 +71,6 @@ export class ListItem extends HTMLElement {
     if (this.DeleteButtonEl === null) {
       return;
     }
-    this.PriorityEl.textContent = this.Item.Priority.toString();
 
     this.updateCompleteElAndBtnText();
 
