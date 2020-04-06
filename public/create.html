@@ -21,8 +21,12 @@
                 <input type="text" class="form-control" id="item-name">
             </div>
             <div class="form-group">
-                <label for="item-priority">Priority (0-3)</label>
-                <input type="text" class="form-control" type="number" max="3" min="0" id="item-priority">
+                <label for="item-priority">Priority (0-100)</label>
+                <p>
+                     <i id="item-priority-value-display"></i>
+                </p>
+                <input class="form-control-range" type="range" max="100" min="0" id="item-priority">
+                <small id="categoryHelp" class="form-text text-muted">80 is considered high priority</small>
             </div>
             <div class="form-group">
                 <label for="item-category">Category</label>
