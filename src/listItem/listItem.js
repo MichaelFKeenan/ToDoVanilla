@@ -34,6 +34,7 @@ export class ListItem extends HTMLElement {
 
     if (this.Item.CompleteBy !== null) {
       this.CompleteByEl = shadow.getElementById('item__complete-by');
+      //would be good to hide entire p tag instead
       this.CompleteByEl.textContent = new Date(this.Item.CompleteBy).toDateString();
     }
 
