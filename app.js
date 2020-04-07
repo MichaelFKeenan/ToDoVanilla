@@ -60,8 +60,12 @@ app.get('/create', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/create.html'));
 });
 
-app.get('/category-list', function (req, res) {
+app.get('/categories/list', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/categories.html'));
+})
+
+app.get('/categories/create', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/createCategory.html'));
 })
 
 //extract all this api stuff
@@ -171,6 +175,28 @@ app.get('/categories', async function (req, res) {
         client.end();
         res.json(mappedCategories)
     });
+});
+
+app.post('/category', async function (req, res) {
+    //handle errors from this
+
+    const newCategory = req.body;
+    connectNewClient()
+
+    client.query(
+        `INSERT INTO categories(name) 
+        VALUES('${newCategory.Name}')`, (clientErr, clientRes) => {
+            if (clientErr) {
+                //do all this error handling better!
+                res.send(500);
+
+                console.log(clientErr.stack)
+                client.end();
+            } else {
+                client.end();
+                res.send(clientRes);
+            }
+        })
 });
 
 const mapItemDisplay = (item) => {

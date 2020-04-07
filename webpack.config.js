@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         index: "./src/index.js",
         create: "./src/create/create.js",
-        categories: "./src/categories/categories.js"
+        categories: "./src/categories/categories.js",
+        createCategory: "./src/categories/create.js"
     },
     // entry: './src/index.js',
     devServer: {
