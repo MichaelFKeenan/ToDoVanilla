@@ -35,12 +35,12 @@ export class ListItem extends HTMLElement {
     if (this.Item.CompleteBy !== null) {
       this.CompleteByEl = shadow.getElementById('item__complete-by');
       //would be good to hide entire p tag instead
-      this.CompleteByEl.textContent = new Date(this.Item.CompleteBy).toDateString();
+      this.CompleteByEl.innerHTML = '<i class="material-icons text-icon">alarm</i> ' + new Date(this.Item.CompleteBy).toDateString();
     }
 
     if (this.Item.Effort !== null) {
       this.EffortEl = shadow.getElementById('item__effort');
-      this.EffortEl.textContent = 'Effort: ' + this.Item.Effort;
+      this.EffortEl.innerHTML = '<i class="material-icons text-icon">hourglass_full</i> ' + this.Item.Effort;
     }
 
     if (this.Item.Description !== null) {
