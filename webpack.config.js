@@ -4,7 +4,8 @@ module.exports = {
     mode: 'development',
     entry: {
         index: "./src/index.js",
-        create: "./src/create/create.js"
+        create: "./src/create/create.js",
+        categories: "./src/categories/categories.js"
     },
     // entry: './src/index.js',
     devServer: {

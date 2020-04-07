@@ -60,6 +60,10 @@ app.get('/create', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/create.html'));
 });
 
+app.get('/category-list', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/categories.html'));
+})
+
 //extract all this api stuff
 app.get('/items', async function (req, res) {
     connectNewClient()

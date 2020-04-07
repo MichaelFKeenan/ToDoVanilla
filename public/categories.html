@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Category Management</title>
+    <style>
+        .category-list {
+            padding: 0;
+            list-style-type: none;
+            position: relative;
+        }
+
+        .buttons-container {
+            padding-top:10px;
+            padding-bottom:10px;
+        }
+
+        .sticky-header {
+            background: #fff;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-md">
+        <div class="sticky-top sticky-header row">
+            <div class="col">
+                <div class="buttons-container row">
+                    <div class="col">
+                        <a href="/">
+                            <button class="btn btn-info"><i class="material-icons">chevron_left</i></button>
+                        </a>
+                        <a href="/categories/create">
+                            <button class="btn btn-success"><i class="material-icons">add</i></button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-list-container">
+            <ul id="category-list" class="category-list">
+                
+            </ul>
+        </div>
+    </div>
+
+    <script src="categories.js"></script>
+</body>
+
+</html>

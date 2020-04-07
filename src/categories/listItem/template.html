@@ -1,0 +1,47 @@
+<style>
+  .category {
+    list-style: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+  }
+
+  .category__section--buttons {
+    text-align: right;
+  }
+</style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div id="root">
+  <li class="category row" id="root__item">
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+          <p><b><span id="category__name"></span></b></p>
+        </div>
+        <div class="col-3">
+          <div class="category__section--buttons">
+            <div class="row">
+              <div class="col">
+                <a href="/categories/edit">
+                  <button id="category-edit-btn" class="btn btn-primary">
+                    <!-- find a way to make these icons smaller! -->
+                    <i class="material-icons">build</i>
+                  </button>
+                </a>
+              </div>
+              <div class="col">
+                <button id="category-delete-btn" class="btn btn-danger">
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+</div>

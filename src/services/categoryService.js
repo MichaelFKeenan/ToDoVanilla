@@ -6,3 +6,11 @@ export const getAllCategories = async () => {
   let data = await response.json()
   return data;
 }
+
+export const deleteCategory = async (itemId) => {
+  console.log('delete', itemId);
+}
+
+export const editCategory = async (item) => {
+  console.log('edit', item);
+}
