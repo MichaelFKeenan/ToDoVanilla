@@ -1,3 +1,3 @@
-import {init} from './toDoList.js'
+import {init} from './toDoList/toDoList.js'
 
 init();
