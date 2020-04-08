@@ -1,3 +1,1 @@
-import {init} from './createItem.js'
-
-init();
+import '../itemForm/itemForm.js'
