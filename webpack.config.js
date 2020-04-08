@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         items: "./src/items/items.js",
         createItem: "./src/items/create/create.js",
+        editItem: "./src/items/edit/edit.js",
         categories: "./src/categories/categories.js",
         createCategory: "./src/categories/create.js",
         pubsub: "./src/pubsub.js"

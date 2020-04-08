@@ -3,7 +3,9 @@ import {
   getAllCategories
 } from '../../services/categoryService.js'
 import {
-  addItem
+  addItem,
+  editItem,
+  getItem
 } from '../../services/itemsService.js'
 
 const templateEl = document.createElement('template');
@@ -17,11 +19,14 @@ export class ItemForm extends HTMLElement {
   effortInput;
   effortInputValueDisplay;
   shadow;
+  id;
 
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'closed' });
     this.shadow.appendChild(templateEl.content.cloneNode(true));
+
+    this.id = this.getAttribute("item-id");
 
     this.priorityInput = this.shadow.getElementById('item-priority');
     this.priorityInputValueDisplay = this.shadow.getElementById('item-priority-value-display');
@@ -34,13 +39,39 @@ export class ItemForm extends HTMLElement {
   async connectedCallback() {
     await this.populateCategoriesDropdown();
 
-    this.updateItemPriorityValueDisplay();
-    this.updateItemEffortValueDisplay();
-
     this.priorityInput.addEventListener('change', this.updateItemPriorityValueDisplay);
     this.effortInput.addEventListener('change', this.updateItemEffortValueDisplay);
 
     this.submitBtn.addEventListener('click', this.submitForm);
+
+    if(this.id){
+      try{
+        let item = await getItem(this.id)
+        this.setItemValues(item);
+      }
+      catch(ex){
+        alert('this item does not exist!')
+        //redirect or something?
+      }
+    }
+
+    this.updateItemPriorityValueDisplay();
+    this.updateItemEffortValueDisplay();
+  }
+
+  setItemValues = (item) => {
+    this.shadow.getElementById('item-name').value = item.Name;
+    this.shadow.getElementById('item-priority').value = item.Priority;
+    this.shadow.getElementById('category-select').value = item.CategoryId;
+    this.shadow.getElementById('item-description').value = item.Description;
+    this.shadow.getElementById('item-effort').value = item.Effort;
+    if(item.CompleteBy !== null){
+      const isoDate = new Date(item.CompleteBy)
+
+      const dateString = `${isoDate.getFullYear()}-${isoDate.getMonth() < 10 ? '0' : ''}${isoDate.getMonth()}-${isoDate.getDate()}`
+
+      this.shadow.getElementById('complete-by').value = dateString;
+    }
   }
 
   populateCategoriesDropdown = async () => {
@@ -71,8 +102,8 @@ export class ItemForm extends HTMLElement {
     const descriptionValue = this.shadow.getElementById('item-description').value;
     const effortValue = this.shadow.getElementById('item-effort').value;
     const completeByValue = this.shadow.getElementById('complete-by').value;
-    const newItem = {
-      Id: null,
+    const item = {
+      Id: this.id,
       Name: nameValue,
       Complete: false,
       Priority: Number(priorityValue),
@@ -83,7 +114,15 @@ export class ItemForm extends HTMLElement {
     }
 
     //find a much nicer way to do this!
-    var res = await addItem(newItem);
+    let res;
+
+    if(this.id){
+      res = await editItem(item);
+    }
+    else {
+      res = await addItem(item);
+    }
+
     if (res.status == 200) {
       window.location.replace("/")
     } else {

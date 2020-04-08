@@ -15,6 +15,7 @@ export class ListItem extends HTMLElement {
   CompleteButtonDisplayEl;
   DeleteButtonEl;
   PriorityEl;
+  EditBtnLinkEl;
   Item;
 
   constructor(itemData) {
@@ -26,6 +27,9 @@ export class ListItem extends HTMLElement {
 
     this.className = 'toDoItem';
     this.attributes.Id = this.Item.Id
+
+    this.EditBtnLinkEl = shadow.getElementById('edit-btn-link');
+    this.EditBtnLinkEl.setAttribute('href', `/items/edit?id=${this.Item.Id}`);
 
     if (this.Item.Name !== null) {
       this.NameEl = shadow.getElementById('item__name');

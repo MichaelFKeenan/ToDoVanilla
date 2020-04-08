@@ -32,8 +32,6 @@ const connectNewClient = () => {
     client.connect(err => {
         if (err) {
             console.error('connection error', err.stack)
-        } else {
-            console.log('connected')
         }
     })
 }
@@ -60,6 +58,10 @@ app.get('/items/create', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/createItem.html'));
 });
 
+app.get('/items/edit', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/editItem.html'));
+});
+
 app.get('/categories/list', function (req, res) {
     res.sendFile(path.join(__dirname + '/public/categories.html'));
 })
@@ -83,6 +85,26 @@ app.get('/api/items', async function (req, res) {
     });
 });
 
+app.get('/api/items/getitem/:id', async function (req, res) {
+    try{
+        connectNewClient()
+        client.query(itemQuery(req.params.id), (clientErr, clientRes) => {
+            if (clientErr) throw clientErr;
+            if (clientRes.rows == null || clientRes.rows.length < 1) {
+                res.status(404).send('Not found');
+                return;
+            }
+            const mappedItem = mapItem(clientRes.rows[0]);
+            client.end();
+            res.json(mappedItem)
+        });
+    }
+    catch(ex){
+        res.status(500).send('Internal Error');
+        return;
+    }
+});
+
 const itemsDisplayQuery = `
 SELECT 
 items.id as item_id,
@@ -96,6 +118,12 @@ items."categoryId" as item_categoryid,
 categories.id as category_id,
 categories.name as category_name
 FROM items INNER JOIN categories ON items."categoryId" = categories.id;
+`
+
+const itemQuery = (id) => `
+SELECT *
+FROM items
+WHERE id = ${id};
 `
 
 //could really do with a way of testing this stuff?
@@ -121,10 +149,35 @@ app.post('/api/items', async function (req, res) {
         })
 });
 
+app.put('/api/items', async function (req, res) {
+    //handle errors from this
+    connectNewClient()
+
+    const editedItem = req.body;
+
+    client.query(
+        `UPDATE items SET (name, complete, priority, "categoryId", description, effort, "completeBy") 
+        = 
+        ('${editedItem.Name}', '${editedItem.Complete ? '1' : '0'}', '${editedItem.Priority.toString()}', '${editedItem.CategoryId.toString()}', '${editedItem.Description}', '${editedItem.Effort.toString()}', ${editedItem.CompleteBy != "" ? `'${editedItem.CompleteBy}'` : null })
+         where id = ${editedItem.Id.toString()}`, (clientErr, clientRes) => {
+            if (clientErr) {
+                client.end();
+
+                //do all this error handling better!
+                res.send(500);
+
+                console.log(clientErr.stack)
+            } else {
+                client.end();
+                res.send(clientRes);
+            }
+        })
+});
+
 app.put('/api/items/toggleItemComplete', async function (req, res) {
     //handle errors from this
     connectNewClient()
-    
+
     client.query(
         `UPDATE items SET complete = '${req.body.isComplete ? '1' : '0'}'
          where id = ${req.body.completedItemId.toString()}`, (clientErr, clientRes) => {
@@ -210,6 +263,19 @@ const mapItemDisplay = (item) => {
         'CompleteBy': item.completeBy,
         'CategoryId': item.item_categoryid,
         'CategoryName': item.category_name
+    };
+}
+
+const mapItem = (item) => {
+    return {
+        "Id": item.id,
+        "Name": item.name,
+        'Complete': item.complete == "1" ? true : false,
+        'Priority': item.priority,
+        'Description': item.description,
+        'Effort': item.effort,
+        'CompleteBy': item.completeBy,
+        'CategoryId': item.categoryId,
     };
 }
 
