@@ -1,8 +1,8 @@
 //can hopefully change this someday
-const apiUrl = window.location.origin + '/';
+const apiUrl = window.location.origin + '/api/categories/';
 
 export const getAllCategories = async () => {
-  let response = await fetch(apiUrl + `categories`);
+  let response = await fetch(apiUrl);
   let data = await response.json()
   return data;
 }
@@ -18,7 +18,7 @@ export const editCategory = async (item) => {
 export const addCategory = async (newCategory) => {
   //validate here?
 
-  const response = await fetch(apiUrl + `category`, {
+  const response = await fetch(apiUrl, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

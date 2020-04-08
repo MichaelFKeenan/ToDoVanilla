@@ -1,6 +1,6 @@
 import template from './template.html';
-import { toggleItemComplete, deleteItem } from '../services/itemsService.js'
-import PubSub from '../pubsub.js'
+import { toggleItemComplete, deleteItem } from '../../services/itemsService.js'
+import PubSub from '../../pubsub.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;

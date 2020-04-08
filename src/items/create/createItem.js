@@ -1,5 +1,5 @@
-import { addItem } from '../services/itemsService.js'
-import { getAllCategories } from '../services/categoryService.js'
+import { addItem } from '../../services/itemsService.js'
+import { getAllCategories } from '../../services/categoryService.js'
 
 let submitBtn;
 let priorityInput;

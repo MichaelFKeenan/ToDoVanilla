@@ -3,10 +3,11 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        index: "./src/index.js",
-        create: "./src/create/create.js",
+        items: "./src/items/items.js",
+        createItem: "./src/items/create/create.js",
         categories: "./src/categories/categories.js",
-        createCategory: "./src/categories/create.js"
+        createCategory: "./src/categories/create.js",
+        pubsub: "./src/pubsub.js"
     },
     // entry: './src/index.js',
     devServer: {

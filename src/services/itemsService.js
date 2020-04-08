@@ -1,8 +1,8 @@
 //can hopefully change this someday
-const apiUrl = window.location.origin + '/';
+const apiUrl = window.location.origin + '/api/items/';
 
 export const getAllItems = async () => {
-  let response = await fetch(apiUrl + `items`);
+  let response = await fetch(apiUrl);
   let data = await response.json()
   return data;
 }
@@ -10,7 +10,7 @@ export const getAllItems = async () => {
 export const addItem = async (newItem) => {
     //validate here?
 
-    const response = await fetch(apiUrl + `item`, {
+    const response = await fetch(apiUrl, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -52,7 +52,7 @@ export const toggleItemComplete = async (completedItemId, isComplete) => {
 export const deleteItem = async (itemIdToDelete) => {
     //validate here?
 
-    const response = await fetch(apiUrl + `item`, {
+    const response = await fetch(apiUrl, {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

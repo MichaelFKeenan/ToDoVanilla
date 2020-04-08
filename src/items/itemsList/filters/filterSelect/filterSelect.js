@@ -1,5 +1,5 @@
 import template from './template.html';
-import PubSub from '../../pubsub.js'
+import PubSub from '../../../../pubsub.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;

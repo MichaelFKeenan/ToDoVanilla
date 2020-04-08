@@ -4,7 +4,6 @@ import {
 import {
     ListItem
 } from './listItem/listItem.js';
-// import PubSub from '../pubsub.js'
 
 let categoryItems = []
 

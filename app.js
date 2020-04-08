@@ -53,11 +53,11 @@ app.use(webpackDevMiddleware(compiler, {
 app.use(express.static('./public'));
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+    res.sendFile(path.join(__dirname + '/public/items.html'));
 })
 
-app.get('/create', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/create.html'));
+app.get('/items/create', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/createItem.html'));
 });
 
 app.get('/categories/list', function (req, res) {
@@ -69,7 +69,7 @@ app.get('/categories/create', function (req, res) {
 })
 
 //extract all this api stuff
-app.get('/items', async function (req, res) {
+app.get('/api/items', async function (req, res) {
     connectNewClient()
 
     client.query(itemsDisplayQuery, (clientErr, clientRes) => {
@@ -99,7 +99,7 @@ FROM items INNER JOIN categories ON items."categoryId" = categories.id;
 `
 
 //could really do with a way of testing this stuff?
-app.post('/item', async function (req, res) {
+app.post('/api/items', async function (req, res) {
     //handle errors from this
 
     const newItem = req.body;
@@ -121,7 +121,7 @@ app.post('/item', async function (req, res) {
         })
 });
 
-app.put('/toggleItemComplete', async function (req, res) {
+app.put('/api/items/toggleItemComplete', async function (req, res) {
     //handle errors from this
     connectNewClient()
     
@@ -142,7 +142,7 @@ app.put('/toggleItemComplete', async function (req, res) {
         })
 });
 
-app.delete('/item', async function (req, res) {
+app.delete('/api/items', async function (req, res) {
     //handle errors from this
 
     connectNewClient()
@@ -163,7 +163,7 @@ app.delete('/item', async function (req, res) {
         })
 });
 
-app.get('/categories', async function (req, res) {
+app.get('/api/categories', async function (req, res) {
     connectNewClient()
 
     client.query('SELECT * FROM categories;', (clientErr, clientRes) => {
@@ -177,7 +177,7 @@ app.get('/categories', async function (req, res) {
     });
 });
 
-app.post('/category', async function (req, res) {
+app.post('/api/categories', async function (req, res) {
     //handle errors from this
 
     const newCategory = req.body;
