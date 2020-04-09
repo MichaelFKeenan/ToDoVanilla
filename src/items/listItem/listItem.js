@@ -59,7 +59,21 @@ export class ListItem extends HTMLElement {
 
     if (this.Item.Priority !== null) {
       this.PriorityEl = shadow.getElementById('item__priority');
-      this.PriorityEl.textContent = this.Item.Priority.toString();
+      let priorityDisplay;
+      switch(this.Item.Priority){
+        case 0: {
+          priorityDisplay = '<span class="badge badge-success badge-pill">L</span>'
+          break;
+        }
+        case 1: {
+          priorityDisplay = '<span class="badge badge-warning badge-pill">M</span>'
+          break;
+        }
+        default : {
+          priorityDisplay = '<span class="badge badge-danger badge-pill">H</span>'
+        }
+      }
+      this.PriorityEl.innerHTML = priorityDisplay;
     }
 
     this.CompleteButtonEl = shadow.getElementById('item-complete-btn');
