@@ -39,7 +39,6 @@ export class ItemForm extends HTMLElement {
   async connectedCallback() {
     await this.populateCategoriesDropdown();
 
-    this.priorityInput.addEventListener('change', this.updateItemPriorityValueDisplay);
     this.effortInput.addEventListener('change', this.updateItemEffortValueDisplay);
 
     this.submitBtn.addEventListener('click', this.submitForm);
@@ -55,13 +54,13 @@ export class ItemForm extends HTMLElement {
       }
     }
 
-    this.updateItemPriorityValueDisplay();
     this.updateItemEffortValueDisplay();
   }
 
   setItemValues = (item) => {
     this.shadow.getElementById('item-name').value = item.Name;
-    this.shadow.getElementById('item-priority').value = item.Priority;
+    const selectedRadio = this.shadow.querySelector(`input[name="itemPriorityRadio"][value="${item.Priority > 2 ? 2 : item.Priority}"]`);
+    selectedRadio.checked = true;
     this.shadow.getElementById('category-select').value = item.CategoryId;
     this.shadow.getElementById('item-description').value = item.Description;
     this.shadow.getElementById('item-effort').value = item.Effort;
@@ -85,10 +84,6 @@ export class ItemForm extends HTMLElement {
     });
   }
 
-  updateItemPriorityValueDisplay = () => {
-    this.priorityInputValueDisplay.innerHTML = this.priorityInput.value;
-  }
-
   updateItemEffortValueDisplay = () => {
     this.effortInputValueDisplay.innerHTML = this.effortInput.value;
   }
@@ -97,7 +92,7 @@ export class ItemForm extends HTMLElement {
     this.submitBtn.disabled = true;
     //validation?
     const nameValue = this.shadow.getElementById('item-name').value;
-    const priorityValue = this.shadow.getElementById('item-priority').value;
+    const priorityValue = this.shadow.querySelector('input[name="itemPriorityRadio"]:checked').value
     const categorySelectValue = this.shadow.getElementById('category-select').value;
     const descriptionValue = this.shadow.getElementById('item-description').value;
     const effortValue = this.shadow.getElementById('item-effort').value;

@@ -36,8 +36,6 @@ const connectNewClient = () => {
     })
 }
 
-
-
 app.use(bodyParser.urlencoded({
     extended: false
 }));
