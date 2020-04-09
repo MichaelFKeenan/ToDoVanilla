@@ -6,10 +6,10 @@ export default class HighPriorityFilter {
     constructor(isActive = false) {
         this.type = "button";
         this.htmlIdentifier = "high-priority-filter-btn";
-        this.name = "high priority filter (80)";
+        this.name = "high priority filter";
         this.active = isActive;
         this.filter = (toDoItem) => {
-            return this.active ? toDoItem.Priority >= 80 : true
+            return this.active ? toDoItem.Priority >= 2 : true
         }
     }
 }
