@@ -48,7 +48,7 @@ describe('given filter is active', () => {
     
     test('return false if priority less than 2', () => {
         const item = {
-            Priority: 79,
+            Priority: 1,
         }
         expect(highPriorityFilter.filter(item)).toBe(false);
     });
