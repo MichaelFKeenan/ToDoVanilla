@@ -27,7 +27,7 @@ export default class CategoryFilter {
 
         this.asyncConnectedCallback = async () => {
             const categories = await getAllCategories();
-            
+
             for (var i = 0; i < categories.length; i++) {
                 this.options.push({
                     //this is sooo wrong, should deffo be same type!
