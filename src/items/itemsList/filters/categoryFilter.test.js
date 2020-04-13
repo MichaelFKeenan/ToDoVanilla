@@ -86,7 +86,6 @@ describe('given categories are returned', () => {
             {
                 value: mockAllCategoriesResponse[1].Id,
                 display: mockAllCategoriesResponse[1].Name
-
             }
         ]);
     });
