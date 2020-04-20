@@ -2,7 +2,7 @@ import {
   Pool
 } from 'pg';
 
-const connectionString = process.env.DATABASE_URL ? process.env.DATABASE_URL : 'postgresql://postgres:xszRC7!v5LR@localhost:5432/todo'
+const connectionString = process.env.DATABASE_URL
 
 export const newPool = () => {
   const pool = new Pool({
