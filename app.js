@@ -20,7 +20,9 @@ const compiler = webpack(config);
 
 //what's this for? probably shouldnt be in plain text here!
 //env var?
-app.use(session({secret: 'some secret'}))
+app.use(session({
+    secret: 'some secret'
+}))
 
 require('./config/passport')(app);
 
@@ -38,31 +40,25 @@ app.use(express.static('./public'));
 
 app.use('/api/items', apiRoutes.items);
 app.use('/api/categories', apiRoutes.categories);
+
+//this MUST come before login stuff, otherwise infinite redirects!
 app.use('/auth', webRoutes.auth);
+
+//redirect to login if not logged in
+app.use('/*', function (req, res, next) {
+    if (!req.user) {
+        res.redirect('/auth/google');
+    }
+    next();
+});
+
+app.use('/items', webRoutes.items);
+app.use('/categories', webRoutes.categories);
 
 //move all the routes into ./routes
 app.get('/', function (req, res) {
-    if(req.user){
-        console.log('user: ', req.user.id)
-    }
-    res.sendFile(path.join(__dirname + '/public/items.html'));
-})
-
-app.get('/items/create', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/createItem.html'));
+    res.redirect('/items/');
 });
-
-app.get('/items/edit', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/editItem.html'));
-});
-
-app.get('/categories/list', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/categories.html'));
-})
-
-app.get('/categories/create', function (req, res) {
-    res.sendFile(path.join(__dirname + '/public/createCategory.html'));
-})
 
 app.listen(process.env.PORT || port, () => {
     console.log('Server started on port:' + port);

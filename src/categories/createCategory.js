@@ -21,7 +21,7 @@ const submitForm = async () => {
     var res = await addCategory(newCategory);
     if(res.status == 200)
     {
-        window.location.replace("/categories/list")
+        window.location.replace("/categories/")
     }
     else {
         alert('aaaaah an error! tell michael!')
