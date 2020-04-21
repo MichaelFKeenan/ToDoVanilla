@@ -8,7 +8,8 @@ module.exports = () => {
   passport.use(new GoogleStrategy({
       clientID: '676145830685-dgaoc9b2qqcmihl08t1p1ah5r9s0aa43.apps.googleusercontent.com',
       clientSecret: 'tbCjOo7Y2TP6Sx_uDuivYWoP',
-      callbackURL: 'http://localhost:8080/auth/google/callback'
+      // callbackURL: 'http://localhost:8080/auth/google/callback'
+      callbackURL: 'https://to-do-vanilla.herokuapp.com/auth/google/callback'
     },
     async function (req, accessToken, refreshToken, profile, done) {
       var user = {};
@@ -35,7 +36,8 @@ module.exports = () => {
 GetUserByEmailAddress = async (emailAddress) => {
   //what if the user exists from another type of sign in? should check by email instead?
   const options = {
-    uri: `http://localhost:8080/api/users/getUser/${emailAddress}`,
+    // uri: `http://localhost:8080/api/users/getUser/${emailAddress}`,
+    uri: `https://to-do-vanilla.herokuapp.com/api/users/getUser/${emailAddress}`,
     method: 'GET',
     // qs: {
     //   emailAddress: emailAddress
@@ -58,7 +60,8 @@ GetUserByEmailAddress = async (emailAddress) => {
 
 CreateUser = async (user) => {
   const options = {
-    uri: 'http://localhost:8080/api/users/',
+    // uri: 'http://localhost:8080/api/users/',
+    uri: 'https://to-do-vanilla.herokuapp.com/api/users/',
     method: 'POST',
     body: user,
     json: true
