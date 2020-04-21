@@ -1,5 +1,6 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var request = require('request-promise');
 
 module.exports = () => {
   //swap out url based on env var?
@@ -9,8 +10,67 @@ module.exports = () => {
       clientSecret: 'tbCjOo7Y2TP6Sx_uDuivYWoP',
       callbackURL: 'http://localhost:8080/auth/google/callback'
     },
-    function (req, accessToken, refreshToken, profile, done) {
-      done(null, profile);
+    async function (req, accessToken, refreshToken, profile, done) {
+      var user = {};
+
+      user.emailAddress = profile.emails[0].value;
+      user.imageUrl = profile._json.picture;
+      user.displayName = profile.displayName;
+
+      user.googleId = profile.id;
+
+      const userInDb = await GetUserByEmailAddress(user.emailAddress);
+      if (!userInDb) {
+        await CreateUser(user);
+      }
+      //if user was created some other way (exists but no google id)
+      //add google id to user
+      //doesn't matter until another way of creating users introduced
+
+      done(null, user);
     }
   ))
+}
+
+GetUserByEmailAddress = async (emailAddress) => {
+  //what if the user exists from another type of sign in? should check by email instead?
+  const options = {
+    uri: `http://localhost:8080/api/users/getUser/${emailAddress}`,
+    method: 'GET',
+    // qs: {
+    //   emailAddress: emailAddress
+    // },
+    json: true
+  }
+  let user = null;
+  await request(options)
+  .then((result) => {
+    user = result
+  })
+  .catch((error) => {
+    if(error.statusCode == 404){
+      return null;
+    }
+    throw error;
+  })
+  return user;
+}
+
+CreateUser = async (user) => {
+  const options = {
+    uri: 'http://localhost:8080/api/users/',
+    method: 'POST',
+    body: user,
+    json: true
+  }
+
+  let response = null;
+  await request(options)
+  .then((result) => {
+    response = result
+  })
+  .catch((error) => {
+    throw(error)
+  })
+  return response;
 }

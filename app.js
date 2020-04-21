@@ -40,6 +40,7 @@ app.use(express.static('./public'));
 
 app.use('/api/items', apiRoutes.items);
 app.use('/api/categories', apiRoutes.categories);
+app.use('/api/users', apiRoutes.users);
 
 //this MUST come before login stuff, otherwise infinite redirects!
 app.use('/auth', webRoutes.auth);
