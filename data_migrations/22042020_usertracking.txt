@@ -1,0 +1,20 @@
+ALTER TABLE items
+    ADD COLUMN "createdByUserId" BIGINT REFERENCES users (id);
+
+ALTER TABLE items
+    ADD COLUMN "assignedToUserId" BIGINT REFERENCES users (id);
+
+ALTER TABLE items
+    ADD COLUMN "assignedByUserId" BIGINT REFERENCES users (id);
+
+ALTER TABLE items
+    ADD COLUMN "completedByUserId" BIGINT REFERENCES users (id);
+
+ALTER TABLE items
+    ADD COLUMN "createdDate" DATE;
+
+ALTER TABLE items
+    ADD COLUMN "completedDate" DATE;
+
+ALTER TABLE items
+    ADD COLUMN "assignedDate" DATE;
