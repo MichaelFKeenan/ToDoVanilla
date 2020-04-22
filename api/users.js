@@ -2,11 +2,22 @@ import {
   Router
 } from 'express';
 import {
+  getUsers,
   getUserByEmailAddress,
   createUser
 } from './services/usersService';
 
 const router = Router();
+
+router.get('/', async function (req, res) {
+  try {
+    const result = await getUsers();
+    res.json(result);
+  } catch (ex) {
+    res.status(500).send('Internal Error');
+    return;
+  }
+});
 
 router.get('/getUser/:emailAddress', async function (req, res) {
   try {

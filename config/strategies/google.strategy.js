@@ -11,23 +11,22 @@ module.exports = () => {
       callbackURL: `${url}/auth/google/callback`
     },
     async function (req, accessToken, refreshToken, profile, done) {
-      var user = {};
-
-      user.emailAddress = profile.emails[0].value;
-      user.imageUrl = profile._json.picture;
-      user.displayName = profile.displayName;
-
-      user.googleId = profile.id;
-
-      const userInDb = await GetUserByEmailAddress(user.emailAddress);
+      let userInDb = await GetUserByEmailAddress(profile.emails[0].value);
       if (!userInDb) {
-        await CreateUser(user);
+        await CreateUser(profile);
+        //this is kinda yuck, would it be crazy to have the create return the new user?
+        userInDb = await GetUserByEmailAddress(profile.emails[0].value);
       }
+      //this also aint pretty ( :-( -)
+      if(!userInDb){
+        throw Error("something went wrong loggin in!")
+      }
+      
       //if user was created some other way (exists but no google id)
       //add google id to user
       //doesn't matter until another way of creating users introduced
 
-      done(null, user);
+      done(null, userInDb);
     }
   ))
 }
@@ -45,19 +44,27 @@ GetUserByEmailAddress = async (emailAddress) => {
   }
   let user = null;
   await request(options)
-  .then((result) => {
-    user = result
-  })
-  .catch((error) => {
-    if(error.statusCode == 404){
-      return null;
-    }
-    throw error;
-  })
+    .then((result) => {
+      user = result
+    })
+    .catch((error) => {
+      if (error.statusCode == 404) {
+        return null;
+      }
+      throw error;
+    })
   return user;
 }
 
-CreateUser = async (user) => {
+CreateUser = async (profile) => {
+  var user = {};
+
+  user.emailAddress = profile.emails[0].value;
+  user.imageUrl = profile._json.picture;
+  user.displayName = profile.displayName;
+
+  user.googleId = profile.id;
+
   const options = {
     uri: `${url}/api/users/`,
     method: 'POST',
@@ -67,11 +74,11 @@ CreateUser = async (user) => {
 
   let response = null;
   await request(options)
-  .then((result) => {
-    response = result
-  })
-  .catch((error) => {
-    throw(error)
-  })
+    .then((result) => {
+      response = result
+    })
+    .catch((error) => {
+      throw (error)
+    })
   return response;
 }

@@ -4,6 +4,17 @@ import {
 
 const pool = newPool();
 
+export const getUsers = async () => {
+  let response;
+  
+  response = await pool.query('SELECT * FROM users;');
+
+  if (response.rows == null || response.rows.length < 1) {
+    //handle no rows, maybe it's okay to just return empty list?
+  }
+  return response.rows[0];
+}
+
 export const getUserByEmailAddress = async (email) => {
   let response;
   

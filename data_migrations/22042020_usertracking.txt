@@ -11,10 +11,10 @@ ALTER TABLE items
     ADD COLUMN "completedByUserId" BIGINT REFERENCES users (id);
 
 ALTER TABLE items
-    ADD COLUMN "createdDate" DATE;
+    ADD COLUMN "createdDate" TIMESTAMPTZ;
 
 ALTER TABLE items
-    ADD COLUMN "completedDate" DATE;
+    ADD COLUMN "completedDate" TIMESTAMPTZ;
 
 ALTER TABLE items
-    ADD COLUMN "assignedDate" DATE;
+    ADD COLUMN "assignedDate" TIMESTAMPTZ;

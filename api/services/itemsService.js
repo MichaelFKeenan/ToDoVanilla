@@ -26,9 +26,26 @@ export const getItem = async (id) => {
   return mappedItem;
 }
 
-export const createItem = async (newItem) => {
-  const response = await pool.query(`INSERT INTO items(name, complete, priority, "categoryId", description, effort, "completeBy") 
-  VALUES('${newItem.Name}', '${newItem.Complete ? '1' : '0'}', '${newItem.Priority.toString()}', '${newItem.CategoryId.toString()}', '${newItem.Description}', '${newItem.Effort.toString()}', ${newItem.CompleteBy != "" ? `'${newItem.CompleteBy}'` : null })`);
+export const createItem = async (newItem, createdById) => {
+  let response = null;
+  try {
+   response = await pool.query(`INSERT INTO items(name, complete, priority, "categoryId", description, effort, "completeBy", "createdByUserId", "createdDate") 
+  VALUES(
+    '${newItem.Name}', 
+    '${newItem.Complete ? '1' : '0'}', 
+    '${newItem.Priority.toString()}', 
+    '${newItem.CategoryId.toString()}', 
+    '${newItem.Description}', 
+    '${newItem.Effort.toString()}', 
+    ${newItem.CompleteBy != "" ? `'${newItem.CompleteBy}'` : null },
+    '${createdById}',
+    to_timestamp(${Math.floor(Date.now())} / 1000.0)
+    )`);
+  }
+  catch(err)
+  {
+    console.log(err)
+  }
 
   if (response.rows == null || response.rows.length < 1) {
     //handle no rows, maybe it's okay to just return empty list?

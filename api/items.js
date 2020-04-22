@@ -37,7 +37,7 @@ router.get('/getitem/:id', async function (req, res) {
 
 router.post('/', async function (req, res) {
   try {
-    res.json(await createItem(req.body));
+    res.json(await createItem(req.body, req.user.id));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;
