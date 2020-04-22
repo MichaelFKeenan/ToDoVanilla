@@ -83,7 +83,6 @@ export class ItemForm extends HTMLElement {
 
   populateCategoriesDropdown = async () => {
     const categories = await getAllCategories();
-
     categories.forEach(option => {
       const newOptionEl = document.createElement('option');
       newOptionEl.innerHTML = option.Name;

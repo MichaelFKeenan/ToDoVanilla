@@ -171,6 +171,8 @@ const mapItem = (item) => {
     'Priority': item.priority,
     'Description': item.description,
     'Effort': item.effort,
+    'CompleteBy': item.completeBy,
+    'CategoryId': item.categoryId,
     'CreatedByUserId': item.createdByUserId,
     'AssignedToUserId': item.assignedToUserId,
     'AssignedByUserId': item.assignedByUserId,
