@@ -12,7 +12,10 @@ export const getUsers = async () => {
   if (response.rows == null || response.rows.length < 1) {
     //handle no rows, maybe it's okay to just return empty list?
   }
-  return response.rows[0];
+
+  const mappedUsers = response.rows.map(mapUser);
+
+  return mappedUsers;
 }
 
 export const getUserByEmailAddress = async (email) => {
@@ -31,4 +34,14 @@ export const createUser = async (newUser) => {
   VALUES('${newUser.emailAddress}', '${newUser.displayName}', '${newUser.imageUrl}', '${newUser.googleId}')`);
 
   return response;
+}
+
+const mapUser = (category) => {
+  return {
+    "Id": category.id,
+    "DisplayName": category.displayName,
+    "EmailAddress": category.emailAddress,
+    "ImageUrl": category.imageUrl,
+    "GoogleId": category.googleId,
+  };
 }

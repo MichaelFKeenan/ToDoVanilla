@@ -26,10 +26,22 @@ export const getItem = async (id) => {
   return mappedItem;
 }
 
-export const createItem = async (newItem, createdById) => {
+export const createItem = async (newItem, currentUserId) => {
   let response = null;
   try {
-   response = await pool.query(`INSERT INTO items(name, complete, priority, "categoryId", description, effort, "completeBy", "createdByUserId", "createdDate") 
+   response = await pool.query(`INSERT INTO items(
+     name, 
+     complete, 
+     priority, 
+     "categoryId", 
+     description, 
+     effort, 
+     "completeBy", 
+     "createdByUserId", 
+     "createdDate", 
+     "assignedToUserId", 
+     "assignedByUserId"
+     ) 
   VALUES(
     '${newItem.Name}', 
     '${newItem.Complete ? '1' : '0'}', 
@@ -38,8 +50,10 @@ export const createItem = async (newItem, createdById) => {
     '${newItem.Description}', 
     '${newItem.Effort.toString()}', 
     ${newItem.CompleteBy != "" ? `'${newItem.CompleteBy}'` : null },
-    '${createdById}',
-    to_timestamp(${Math.floor(Date.now())} / 1000.0)
+    '${currentUserId}',
+    to_timestamp(${Math.floor(Date.now())} / 1000.0),
+    ${newItem.AssignedUserId != null ? `'${newItem.AssignedUserId}'` : null},
+    ${newItem.AssignedUserId != null ? `'${currentUserId}'` : null }
     )`);
   }
   catch(err)
@@ -54,10 +68,30 @@ export const createItem = async (newItem, createdById) => {
   return response;
 }
 
-export const updateItem = async (editedItem) => {
-  const response = await pool.query(`UPDATE items SET (name, complete, priority, "categoryId", description, effort, "completeBy") 
+//only update assign date if assign has changed... need to work it out and pass in here!
+export const updateItem = async (editedItem, currentUserId) => {
+  const response = await pool.query(`UPDATE items SET (
+    name, 
+    complete, 
+    priority, 
+    "categoryId", 
+    description, 
+    effort, 
+    "completeBy", 
+    "assignedToUserId", 
+    "assignedByUserId") 
   = 
-  ('${editedItem.Name}', '${editedItem.Complete ? '1' : '0'}', '${editedItem.Priority.toString()}', '${editedItem.CategoryId.toString()}', '${editedItem.Description}', '${editedItem.Effort.toString()}', ${editedItem.CompleteBy != "" ? `'${editedItem.CompleteBy}'` : null })
+  (
+    '${editedItem.Name}', 
+    '${editedItem.Complete ? '1' : '0'}', 
+    '${editedItem.Priority.toString()}', 
+    '${editedItem.CategoryId.toString()}', 
+    '${editedItem.Description}', 
+    '${editedItem.Effort.toString()}', 
+    ${editedItem.CompleteBy != "" ? `'${editedItem.CompleteBy}'` : null },
+    ${editedItem.AssignedUserId != null ? `'${editedItem.AssignedUserId}'` : null},
+    ${editedItem.AssignedUserId != null ? `'${currentUserId}'` : null }
+    )
    where id = ${editedItem.Id.toString()}`);
 
   if (response.rows == null || response.rows.length < 1) {
@@ -100,9 +134,12 @@ items.description,
 items.effort,
 items."completeBy",
 items."categoryId" as item_categoryid,
-categories.id as category_id,
-categories.name as category_name
-FROM items INNER JOIN categories ON items."categoryId" = categories.id;
+category.id as category_id,
+category.name as category_name,
+"assignedToUser"."displayName" as assigned_to_name
+FROM items 
+LEFT JOIN categories AS category ON items."categoryId" = category.id
+LEFT JOIN users AS "assignedToUser" ON items."assignedToUserId" = "assignedToUser".id;
 `
 
 const itemQuery = (id) => `
@@ -121,7 +158,8 @@ const mapItemDisplay = (item) => {
     'Effort': item.effort,
     'CompleteBy': item.completeBy,
     'CategoryId': item.item_categoryid,
-    'CategoryName': item.category_name
+    'CategoryName': item.category_name,
+    'AssignedUserName': item.assigned_to_name
   };
 }
 
@@ -133,7 +171,12 @@ const mapItem = (item) => {
     'Priority': item.priority,
     'Description': item.description,
     'Effort': item.effort,
-    'CompleteBy': item.completeBy,
-    'CategoryId': item.categoryId,
+    'CreatedByUserId': item.createdByUserId,
+    'AssignedToUserId': item.assignedToUserId,
+    'AssignedByUserId': item.assignedByUserId,
+    'CompletedByUserId': item.completedByUserId,
+    'CreatedDate': item.createdDate,
+    'CompletedDate': item.completedDate,
+    'AssignedDate': item.assignedDate,
   };
 }

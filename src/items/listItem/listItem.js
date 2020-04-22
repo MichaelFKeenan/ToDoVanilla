@@ -10,6 +10,7 @@ export class ListItem extends HTMLElement {
   NameEl;
   CompleteByEl;
   EffortEl;
+  AssignedToEl;
   DecsriptionEl;
   CompleteButtonEl;
   CompleteButtonDisplayEl;
@@ -45,6 +46,11 @@ export class ListItem extends HTMLElement {
     if (this.Item.Effort !== null) {
       this.EffortEl = shadow.getElementById('item__effort');
       this.EffortEl.innerHTML = '<i class="material-icons text-icon">hourglass_full</i> ' + this.Item.Effort;
+    }
+    
+    if (this.Item.AssignedUserName !== null) {
+      this.AssignedToEl = shadow.getElementById('item__assigned-to');
+      this.AssignedToEl.innerHTML = '<i class="material-icons text-icon">face</i> ' + this.Item.AssignedUserName;
     }
 
     if (this.Item.Description !== null) {

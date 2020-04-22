@@ -46,7 +46,7 @@ router.post('/', async function (req, res) {
 
 router.put('/', async function (req, res) {
   try {
-    res.json(await updateItem(req.body));
+    res.json(await updateItem(req.body, req.user.id));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;
