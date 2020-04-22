@@ -67,8 +67,10 @@ export const updateItem = async (editedItem) => {
   return response;
 }
 
-export const toggleItemComplete = async (itemId, isComplete) => {
-  const response = await pool.query(`UPDATE items SET complete = '${isComplete ? '1' : '0'}'
+//my god make this easier to read! have seperate complete and incomplete queries?
+export const toggleItemComplete = async (itemId, isComplete, completeById) => {
+  const response = await pool.query(`UPDATE items SET (complete, "completedByUserId", "completedDate") =
+  ('${isComplete ? '1' : '0'}', ${isComplete ? completeById : null}, ${isComplete ? `to_timestamp(${Math.floor(Date.now())} / 1000.0)` : null})
   where id = ${itemId.toString()}`);
 
   if (response.rows == null || response.rows.length < 1) {

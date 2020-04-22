@@ -55,7 +55,7 @@ router.put('/', async function (req, res) {
 
 router.put('/toggleItemComplete', async function (req, res) {
   try {
-    res.json(await toggleItemComplete(req.body.completedItemId, req.body.isComplete));
+    res.json(await toggleItemComplete(req.body.completedItemId, req.body.isComplete, req.user.id));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;
