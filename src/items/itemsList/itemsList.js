@@ -4,6 +4,9 @@ import {
     getAllItems
 } from '../../services/itemsService.js'
 import {
+    getCurrentUserId
+} from '../../services/sessionService'
+import {
     ListItem
 } from '../listItem/listItem.js';
 import {
@@ -16,18 +19,14 @@ import PubSub from '../../pubsub.js'
 
 let toDoItems = []
 
-const filters = [
-    FilterFactory.createFilter('HighPriorityFilter', false),
-    FilterFactory.createFilter('CompleteFilter', true),
-    FilterFactory.createFilter('CategoryFilter')
-]
-
+const filters = [];
 let isFilterMenuOpen = false;
 
 let filterMenuContainerEl;
 let filterMenuRowEl;
 let menuToggleBtnEl;
 let menuToggleBtnIconEl;
+let userId;
 
 export const init = async () => {
     filterMenuContainerEl = document.getElementById('filters-container');
@@ -39,6 +38,8 @@ export const init = async () => {
     //going to move when more sort types introduced
     //obviosuly test sorts too
     toDoItems.sort((a, b) => b.Priority - a.Priority)
+
+    userId = await getCurrentUserId();
 
     registerFilters();
 
@@ -98,6 +99,11 @@ const filterList = () => {
 }
 
 const registerFilters = () => {
+    filters.push(FilterFactory.createFilter('AssignedFilter', {userId}))
+    filters.push(FilterFactory.createFilter('HighPriorityFilter', false))
+    filters.push(FilterFactory.createFilter('CompleteFilter', true))
+    filters.push(FilterFactory.createFilter('CategoryFilter'))
+
     filters.forEach((filter) => {
         let filterEl;
         if (filter.type == "button") {

@@ -4,13 +4,14 @@ export default class CompleteFilter {
     active;
     filter;
     type;
-    constructor(isActive = false) {
+    userId;
+    constructor({isActive = false, userId}) {
         this.type = "button";
-        this.htmlIdentifier = "complete-filter-btn";
-        this.name = "complete";
+        this.htmlIdentifier = "assigned-filter-btn";
+        this.name = "assigned";
         this.active = isActive;
         this.filter = (toDoItem) => {
-            return this.active ? !toDoItem.Complete : true
+            return this.active ? toDoItem.AssignedToUserId == userId : true
         }
     }
 }

@@ -18,5 +18,3 @@ CREATE DATABASE todo_test WITH TEMPLATE todo_test_base OWNER postgres
 OR
 *if we do this we can run many suites in parallel
 CREATE DATABASE todo_test_(testsuite) WITH TEMPLATE todo_test_base OWNER postgres
-
-[{"Id":"64","Name":"test 1","Complete":false,"Priority":0,"Description":"low priority incomplete category 1","Effort":4,"CompleteBy":"2020-04-16T23:00:00.000Z","CategoryId":"0","CategoryName":"category 1"},{"Id":"65","Name":"test 2","Complete":true,"Priority":2,"Description":"high priority complete category 2","Effort":8,"CompleteBy":null,"CategoryId":"1","CategoryName":"category 2"}]

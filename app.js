@@ -46,6 +46,7 @@ app.use('/api/users', apiRoutes.users);
 app.use('/auth', webRoutes.auth);
 
 //redirect to login if not logged in
+//this MUST come before routes we want to authenticate on
 app.use('/*', function (req, res, next) {
     if (!req.user) {
         res.redirect('/auth/google');
@@ -55,6 +56,7 @@ app.use('/*', function (req, res, next) {
 
 app.use('/items', webRoutes.items);
 app.use('/categories', webRoutes.categories);
+app.use('/session', webRoutes.session);
 
 //move all the routes into ./routes
 app.get('/', function (req, res) {

@@ -1,8 +1,9 @@
 import HighPriorityFilter from './highPriorityFilter.js'
 import CompleteFilter from './completeFilter.js'
 import CategoryFilter from './categoryFilter.js'
+import AssignedFilter from './assignedFilter.js'
 
-const filter = { HighPriorityFilter, CompleteFilter, CategoryFilter };
+const filter = { HighPriorityFilter, CompleteFilter, CategoryFilter, AssignedFilter };
 
 export default {
     createFilter(type, attributes) {

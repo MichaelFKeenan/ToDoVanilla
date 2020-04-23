@@ -28,8 +28,8 @@ export const getItem = async (id) => {
 
 export const createItem = async (newItem, currentUserId) => {
   let response = null;
-  try {
-   response = await pool.query(`INSERT INTO items(
+
+  response = await pool.query(`INSERT INTO items(
      name, 
      complete, 
      priority, 
@@ -55,11 +55,6 @@ export const createItem = async (newItem, currentUserId) => {
     ${newItem.AssignedUserId != null ? `'${newItem.AssignedUserId}'` : null},
     ${newItem.AssignedUserId != null ? `'${currentUserId}'` : null }
     )`);
-  }
-  catch(err)
-  {
-    console.log(err)
-  }
 
   if (response.rows == null || response.rows.length < 1) {
     //handle no rows, maybe it's okay to just return empty list?
@@ -120,7 +115,7 @@ export const deleteItem = async (id) => {
   if (response.rows == null || response.rows.length < 1) {
     //handle no rows, maybe it's okay to just return empty list?
   }
-  
+
   return response;
 }
 
@@ -134,6 +129,7 @@ items.description,
 items.effort,
 items."completeBy",
 items."categoryId" as item_categoryid,
+items."assignedToUserId",
 category.id as category_id,
 category.name as category_name,
 "assignedToUser"."displayName" as assigned_to_name
@@ -159,7 +155,8 @@ const mapItemDisplay = (item) => {
     'CompleteBy': item.completeBy,
     'CategoryId': item.item_categoryid,
     'CategoryName': item.category_name,
-    'AssignedUserName': item.assigned_to_name
+    'AssignedUserName': item.assigned_to_name,
+    'AssignedToUserId': item.assignedToUserId
   };
 }
 
