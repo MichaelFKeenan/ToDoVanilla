@@ -99,6 +99,7 @@ const filterList = () => {
 }
 
 const registerFilters = () => {
+    //we can actually test a lot of this file now
     filters.push(FilterFactory.createFilter('AssignedFilter', {userId}))
     filters.push(FilterFactory.createFilter('HighPriorityFilter', false))
     filters.push(FilterFactory.createFilter('CompleteFilter', true))
@@ -116,6 +117,7 @@ const registerFilters = () => {
         }
         const newCol = document.createElement('div');
         newCol.classList.add('col');
+        newCol.classList.add('mb-3');
         newCol.appendChild(filterEl);
         filterMenuRowEl.appendChild(newCol);
     })

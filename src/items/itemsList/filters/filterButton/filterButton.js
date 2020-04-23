@@ -15,7 +15,8 @@ export class FilterButton extends HTMLElement {
     this.ButtonEl = shadow.getElementById('root');
 
     this.ButtonEl.id = filter.htmlIdentifier;
-    this.ButtonEl.innerHTML = this.buildFilterText(filter);
+    this.ButtonEl.innerHTML = filter.name;
+    this.updateClassList(filter.active);
 
     this.ButtonEl.addEventListener('click', () => {
       this.filterClick(filter)
@@ -25,9 +26,12 @@ export class FilterButton extends HTMLElement {
 
   filterClick = (filter) => {
     filter.active = !filter.active;
-    this.ButtonEl.innerHTML = this.buildFilterText(filter);
+    this.updateClassList(filter.active);
   }
 
-  buildFilterText = (filter) => filter.name + (filter.active ? ' on' : ' off');
+  updateClassList = (isActive) => {
+    this.ButtonEl.classList.remove(isActive ? 'btn-secondary' : 'btn-primary');
+    this.ButtonEl.classList.add(isActive ? 'btn-primary' : 'btn-secondary');
+  }
 }
 window.customElements.define('filter-button', FilterButton);
