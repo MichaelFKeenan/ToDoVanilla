@@ -37,7 +37,7 @@ router.get('/getitem/:id', async function (req, res) {
 
 router.post('/', async function (req, res) {
   try {
-    res.json(await createItem(req.body, req.user.id));
+    res.json(await createItem(req.body));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;
@@ -46,7 +46,7 @@ router.post('/', async function (req, res) {
 
 router.put('/', async function (req, res) {
   try {
-    res.json(await updateItem(req.body, req.user.id));
+    res.json(await updateItem(req.body));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;
@@ -55,7 +55,7 @@ router.put('/', async function (req, res) {
 
 router.put('/toggleItemComplete', async function (req, res) {
   try {
-    res.json(await toggleItemComplete(req.body.completedItemId, req.body.isComplete, req.user.id));
+    res.json(await toggleItemComplete(req.body.completedItemId, req.body.isComplete, req.body.userId));
   } catch (ex) {
     res.status(500).send('Internal Error');
     return;

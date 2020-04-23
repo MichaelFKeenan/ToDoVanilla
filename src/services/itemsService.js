@@ -55,7 +55,7 @@ export const editItem = async (item) => {
     return await response;
 }
 
-export const toggleItemComplete = async (completedItemId, isComplete) => {
+export const toggleItemComplete = async (completedItemId, isComplete, userId) => {
     //validate here?
 
     const response = await fetch(apiUrl + `toggleItemComplete`, {
@@ -69,7 +69,7 @@ export const toggleItemComplete = async (completedItemId, isComplete) => {
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: JSON.stringify({'completedItemId': completedItemId, 'isComplete': isComplete}) // body data type must match "Content-Type" header
+        body: JSON.stringify({'completedItemId': completedItemId, 'isComplete': isComplete, 'userId': userId}) // body data type must match "Content-Type" header
     });
 
     //handle errors here?

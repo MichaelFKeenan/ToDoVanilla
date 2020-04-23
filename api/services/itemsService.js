@@ -26,7 +26,7 @@ export const getItem = async (id) => {
   return mappedItem;
 }
 
-export const createItem = async (newItem, currentUserId) => {
+export const createItem = async (newItemRequest) => {
   let response = null;
 
   response = await pool.query(`INSERT INTO items(
@@ -43,17 +43,17 @@ export const createItem = async (newItem, currentUserId) => {
      "assignedByUserId"
      ) 
   VALUES(
-    '${newItem.Name}', 
-    '${newItem.Complete ? '1' : '0'}', 
-    '${newItem.Priority.toString()}', 
-    '${newItem.CategoryId.toString()}', 
-    '${newItem.Description}', 
-    '${newItem.Effort.toString()}', 
-    ${newItem.CompleteBy != "" ? `'${newItem.CompleteBy}'` : null },
-    '${currentUserId}',
+    '${newItemRequest.Name}', 
+    '${newItemRequest.Complete ? '1' : '0'}', 
+    '${newItemRequest.Priority.toString()}', 
+    '${newItemRequest.CategoryId.toString()}', 
+    '${newItemRequest.Description}', 
+    '${newItemRequest.Effort.toString()}', 
+    ${newItemRequest.CompleteBy != "" ? `'${newItemRequest.CompleteBy}'` : null },
+    '${newItemRequest.UserId}',
     to_timestamp(${Math.floor(Date.now())} / 1000.0),
-    ${newItem.AssignedUserId != null ? `'${newItem.AssignedUserId}'` : null},
-    ${newItem.AssignedUserId != null ? `'${currentUserId}'` : null }
+    ${newItemRequest.AssignedUserId != null ? `'${newItemRequest.AssignedUserId}'` : null},
+    ${newItemRequest.AssignedUserId != null ? `'${newItemRequest.UserId}'` : null }
     )`);
 
   if (response.rows == null || response.rows.length < 1) {
@@ -64,7 +64,7 @@ export const createItem = async (newItem, currentUserId) => {
 }
 
 //only update assign date if assign has changed... need to work it out and pass in here!
-export const updateItem = async (editedItem, currentUserId) => {
+export const updateItem = async (editedItemRequest) => {
   const response = await pool.query(`UPDATE items SET (
     name, 
     complete, 
@@ -77,17 +77,17 @@ export const updateItem = async (editedItem, currentUserId) => {
     "assignedByUserId") 
   = 
   (
-    '${editedItem.Name}', 
-    '${editedItem.Complete ? '1' : '0'}', 
-    '${editedItem.Priority.toString()}', 
-    '${editedItem.CategoryId.toString()}', 
-    '${editedItem.Description}', 
-    '${editedItem.Effort.toString()}', 
-    ${editedItem.CompleteBy != "" ? `'${editedItem.CompleteBy}'` : null },
-    ${editedItem.AssignedUserId != null ? `'${editedItem.AssignedUserId}'` : null},
-    ${editedItem.AssignedUserId != null ? `'${currentUserId}'` : null }
+    '${editedItemRequest.Name}', 
+    '${editedItemRequest.Complete ? '1' : '0'}', 
+    '${editedItemRequest.Priority.toString()}', 
+    '${editedItemRequest.CategoryId.toString()}', 
+    '${editedItemRequest.Description}', 
+    '${editedItemRequest.Effort.toString()}', 
+    ${editedItemRequest.CompleteBy != "" ? `'${editedItemRequest.CompleteBy}'` : null },
+    ${editedItemRequest.AssignedUserId != null ? `'${editedItemRequest.AssignedUserId}'` : null},
+    ${editedItemRequest.AssignedUserId != null ? `'${editedItemRequest.UserId}'` : null }
     )
-   where id = ${editedItem.Id.toString()}`);
+   where id = ${editedItemRequest.Id.toString()}`);
 
   if (response.rows == null || response.rows.length < 1) {
     //handle no rows, maybe it's okay to just return empty list?

@@ -10,6 +10,9 @@ import {
   editItem,
   getItem
 } from '../../services/itemsService.js'
+import {
+  getCurrentUserId
+} from '../../services/sessionService.js'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
@@ -130,7 +133,8 @@ export class ItemForm extends HTMLElement {
       AssignedUserId: Number(assignedUserSelectValue),
       Description: descriptionValue,
       Effort: Number(effortValue),
-      CompleteBy: completeByValue
+      CompleteBy: completeByValue,
+      UserId: await getCurrentUserId()
     }
 
     //find a much nicer way to do this!

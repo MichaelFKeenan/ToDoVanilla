@@ -1,5 +1,6 @@
 import template from './template.html';
 import { toggleItemComplete, deleteItem } from '../../services/itemsService.js'
+import { getCurrentUserId } from '../../services/sessionService.js'
 import PubSub from '../../pubsub.js'
 
 const templateEl = document.createElement('template');
@@ -104,8 +105,10 @@ export class ListItem extends HTMLElement {
       
       this.Item.Complete = !this.Item.Complete;
 
+      const userId = await getCurrentUserId();
+
       //do something with this response?
-      var res = await toggleItemComplete(this.Item.Id, this.Item.Complete);
+      var res = await toggleItemComplete(this.Item.Id, this.Item.Complete, userId);
       if(res.status == 200){
         //may be better to totally re-do list instead
         this.updateCompleteElAndBtnText();
