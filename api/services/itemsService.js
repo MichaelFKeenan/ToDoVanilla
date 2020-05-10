@@ -63,7 +63,7 @@ export const createItem = async (newItemRequest) => {
   return response;
 }
 
-//only update assign date if assign has changed... need to work it out and pass in here!
+//only update assign date and assigner if assign has changed... need to work it out and pass in here!
 export const updateItem = async (editedItemRequest) => {
   const response = await pool.query(`UPDATE items SET (
     name, 
@@ -135,7 +135,8 @@ category.name as category_name,
 "assignedToUser"."displayName" as assigned_to_name
 FROM items 
 LEFT JOIN categories AS category ON items."categoryId" = category.id
-LEFT JOIN users AS "assignedToUser" ON items."assignedToUserId" = "assignedToUser".id;
+LEFT JOIN users AS "assignedToUser" ON items."assignedToUserId" = "assignedToUser".id
+ORDER BY items."createdDate" DESC;
 `
 
 const itemQuery = (id) => `

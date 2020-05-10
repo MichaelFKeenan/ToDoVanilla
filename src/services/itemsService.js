@@ -1,5 +1,6 @@
 //can hopefully change this someday
 const apiUrl = window.location.origin + '/api/items/';
+const googleApiUrl = window.location.origin + '/googleapi/';
 
 export const getAllItems = async () => {
   let response = await fetch(apiUrl);
@@ -29,6 +30,25 @@ export const addItem = async (newItem) => {
         referrerPolicy: 'no-referrer', // no-referrer, *client
         body: JSON.stringify(newItem) // body data type must match "Content-Type" header
     });
+
+    if(response.status == "200"){
+        const calendarResponse = await fetch(`${googleApiUrl}event`, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(newItem) // body data type must match "Content-Type" header
+        });
+    }
+
+    //what if create succeeds but calendar creation fails? need to notify user somehow
+    //ideally queue the operation and have a processing task, unrealistic right now though!
 
     //handle errors here?
     return await response;

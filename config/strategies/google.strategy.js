@@ -10,23 +10,27 @@ module.exports = () => {
       clientSecret: 'tbCjOo7Y2TP6Sx_uDuivYWoP',
       callbackURL: `${url}/auth/google/callback`
     },
-    async function (req, accessToken, refreshToken, profile, done) {
-      let userInDb = await GetUserByEmailAddress(profile.emails[0].value);
-      if (!userInDb) {
+    async function (request, accessToken, refreshToken, profile, done) {
+      let user = await GetUserByEmailAddress(profile.emails[0].value);
+      if (!user) {
         await CreateUser(profile);
         //this is kinda yuck, would it be crazy to have the create return the new user?
-        userInDb = await GetUserByEmailAddress(profile.emails[0].value);
+        user = await GetUserByEmailAddress(profile.emails[0].value);
       }
       //this also aint pretty ( :-( -)
-      if(!userInDb){
+      if(!user){
         throw Error("something went wrong loggin in!")
       }
       
+      //add tokens
+      user.accessToken = accessToken;
+      user.refreshToken = refreshToken;
+
       //if user was created some other way (exists but no google id)
       //add google id to user
       //doesn't matter until another way of creating users introduced
 
-      done(null, userInDb);
+      done(null, user);
     }
   ))
 }
