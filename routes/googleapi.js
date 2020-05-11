@@ -58,7 +58,7 @@ router.post('/event', async function (req, res) {
     //need to retrieve and use assigned users calendar id!
     const response = calendar.events.insert({
       auth: oauth2Client,
-      calendarId: 'primary',
+      calendarId: item.assignedUserEmail,
       resource: event,
     }, function(err, event) {
       if (err) {

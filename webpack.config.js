@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: "development",
     entry: {
         items: "./src/items/items.js",
         createItem: "./src/items/create/create.js",
@@ -10,7 +10,6 @@ module.exports = {
         createCategory: "./src/categories/create.js",
         pubsub: "./src/pubsub.js"
     },
-    // entry: './src/index.js',
     devServer: {
         contentBase: path.join(__dirname, 'public'),
         port: 8080,

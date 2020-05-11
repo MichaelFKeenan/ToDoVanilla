@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+//ONLY DO THIS IN DEV/LOCALLY?!
 //Enable "webpack-dev-middleware"
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath

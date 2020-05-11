@@ -6,3 +6,9 @@ export const getUsers = async () => {
     let data = await response.json()
     return data;
 }
+
+export const getUserEmail = async (id) => {
+    let response = await fetch(`${apiUrl}getemailaddress/${id}`);
+    let data = await response.json()
+    return data;
+}
