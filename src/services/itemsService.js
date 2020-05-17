@@ -36,7 +36,7 @@ export const addItem = async (newItem) => {
     });
 
     if (response.status == "200") {
-        if (!newItem.AssignedUserId) {
+        if (!newItem.AssignedUserId || !newItem.CompleteBy) {
             return response;
         }
 

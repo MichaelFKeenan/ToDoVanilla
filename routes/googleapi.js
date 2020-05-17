@@ -2,84 +2,83 @@ import {
   Router
 } from 'express';
 
-const {google} = require('googleapis');
+const {
+  google
+} = require('googleapis');
 import credentials from '../credentials';
 
 const router = Router();
 
+const url = process.env.URL ? process.env.URL : "https://to-do-vanilla.herokuapp.com"
+
 router.post('/event', async function (req, res) {
   const item = req.body;
-  
+
   var oauth2Client = new google.auth.OAuth2(
-        credentials.clientID,
-        credentials.clientSecret,
-        credentials.callbackURL
-    );
+    credentials.clientID,
+    credentials.clientSecret,
+    credentials.callbackURL
+  );
 
   oauth2Client.credentials = {
-        access_token: req.user.refreshToken.access_token,
-        refresh_token: req.user.refreshToken.id_token
-    };
+    access_token: req.user.refreshToken.access_token,
+    refresh_token: req.user.refreshToken.id_token
+  };
 
   var calendar = google.calendar('v3');
-  // const response = await calendar.events.list({
-  //       auth: oauth2Client,
-  //       calendarId: 'primary',
-  //       timeMin: (new Date()).toISOString(),
-  //       maxResults: 10,
-  //       singleEvents: true,
-  //       orderBy: 'startTime'
-  //   });
 
-    const event = {
-      'summary': item.Name,
-      'description': item.Description,
-      'start': {
-        // 'dateTime': '2015-05-28T09:00:00-07:00',
-        'date': item.CompleteBy
-      },
-      'end': {
-        'date': item.CompleteBy
-      },
-      //get email from assigned user id? or pass it in?
-      // 'attendees': [
-      //   {'email': 'lpage@example.com'},
-      //   {'email': 'sbrin@example.com'},
-      // ],
-      'reminders': {
-        'useDefault': false,
-        'overrides': [
-          {'method': 'email', 'minutes': 24 * 60},
-          // {'method': 'popup', 'minutes': 12 * 60},
-        ],
-      },
+  var eventRequest = generateGoogleEventRequest(item);
+  console.log('eventRequest', eventRequest)
+  const response = calendar.events.insert({
+    auth: oauth2Client,
+    calendarId: req.user.emailAddress,
+    resource: eventRequest,
+  }, function (err, newEvent) {
+    if (err) {
+      console.log('There was an error contacting the Calendar service: ' + err);
+      return;
     }
+    console.log('Event created: %s', newEvent);
+  });
 
-    //need to retrieve and use assigned users calendar id!
-    const response = calendar.events.insert({
-      auth: oauth2Client,
-      calendarId: item.assignedUserEmail,
-      resource: event,
-    }, function(err, event) {
-      if (err) {
-        console.log('There was an error contacting the Calendar service: ' + err);
-        return;
-      }
-      console.log('Event created: %s', event.htmlLink);
-    });
-
-//   const response = await calendar.events.insert({
-//     auth: oauth2Client,
-//     calendarId: 'primary',
-//     sendNotifications: true,
-//     sendUpdates: true,
-//     singleEvents: true,
-//     orderBy: 'startTime'
-// });
-    console.log('response', response)
-    res.send(response);
-
-
+  res.send(response);
 });
+
+//move all this stuff to a new service, this will all be re-used for edit etc
+const generateGoogleEventRequest = (item) => {
+  return {
+    'summary': item.Name,
+    'description': generateEventDescription(item),
+    'start': {
+      'date': item.CompleteBy
+    },
+    'end': {
+      'date': item.CompleteBy
+    },
+    'attendees': [{
+      'email': item.assignedUserEmail
+    }],
+    'sendNotifications': true,
+    'sendUpdates': true,
+    'reminders': {
+      'useDefault': false,
+      'overrides': [{
+        'method': 'email',
+        'minutes': 24 * 60
+      }, ],
+    }
+  }
+}
+
+const generateEventDescription = (item) => 
+`<h2>${item.Name}</h2>
+</br>
+<h4>Description:</h4>
+${item.Description}
+</br>
+<h4>Assined To:</h4>
+${item.assignedUserEmail}
+</br>
+<a href='${url}/items'>View Item</a>`
 
 export default router;
