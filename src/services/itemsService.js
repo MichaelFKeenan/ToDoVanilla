@@ -34,8 +34,9 @@ export const addItem = async (newItem) => {
         referrerPolicy: 'no-referrer', // no-referrer, *client
         body: JSON.stringify(newItem) // body data type must match "Content-Type" header
     });
-
+    console.log('creation resp: ', response.status)
     if (response.status == "200") {
+        console.log('ids: ', newItem.AssignedUserId, ', ' + newItem.CompleteBy)
         if (!newItem.AssignedUserId || !newItem.CompleteBy) {
             return response;
         }
@@ -78,13 +79,17 @@ export const editItem = async (item) => {
 }
 
 const createCalendarEvent = async (item) => {
+    console.log('create event')
     const assignedUserEmail = await getUserEmail(item.AssignedUserId);
+    console.log('assigned user: ', item.AssignedUserId)
 
     const calendarRequest = {
         ...item,
         assignedUserEmail: assignedUserEmail.emailAddress
     }
 
+
+    console.log('calendar req: ', item.AssignedUserId, ', apiurl: ', `${googleApiUrl}event`)
     return await fetch(`${googleApiUrl}event`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
