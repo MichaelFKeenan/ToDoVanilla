@@ -37,7 +37,8 @@ export const addItem = async (newItem) => {
     console.log('creation resp: ', response.status)
     if (response.status == "200") {
         console.log('ids: ', newItem.AssignedUserId, ', ' + newItem.CompleteBy)
-        if (!newItem.AssignedUserId || !newItem.CompleteBy) {
+        if (newItem.AssignedUserId == null || !newItem.CompleteBy) {
+            //id 0 goes in here?!?!
             return response;
         }
 
