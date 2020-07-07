@@ -38,7 +38,6 @@ export const addItem = async (newItem) => {
     if (response.status == "200") {
         console.log('ids: ', newItem.AssignedUserId, ', ' + newItem.CompleteBy)
         if (newItem.AssignedUserId == null || !newItem.CompleteBy) {
-            //id 0 goes in here?!?!
             return response;
         }
 
