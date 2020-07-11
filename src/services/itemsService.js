@@ -34,7 +34,7 @@ export const addItem = async (newItem) => {
         referrerPolicy: 'no-referrer', // no-referrer, *client
         body: JSON.stringify(newItem) // body data type must match "Content-Type" header
     });
-    console.log('creation resp: ', response.status)
+
     if (response.status == "200") {
         console.log('ids: ', newItem.AssignedUserId, ', ' + newItem.CompleteBy)
         if (newItem.AssignedUserId == null || !newItem.CompleteBy) {
