@@ -1,21 +1,21 @@
-import FilterFactory from './filters/filterFactory.js'
-import FilterItems from './filters/filterService.js'
+import FilterFactory from './filters/filterFactory'
+import FilterItems from './filters/filterService'
 import {
     getAllItems
-} from '../../services/itemsService.js'
+} from '../../services/itemsService'
 import {
     getCurrentUserId
 } from '../../services/sessionService'
 import {
     ListItem
-} from '../listItem/listItem.js';
+} from '../listItem/listItem';
 import {
     FilterButton
-} from './filters/filterButton/filterButton.js';
+} from './filters/filterButton/filterButton';
 import {
     FilterSelect
-} from './filters/filterSelect/filterSelect.js';
-import PubSub from '../../pubsub.js'
+} from './filters/filterSelect/filterSelect';
+import PubSub from '../../pubsub'
 
 let toDoItems = []
 

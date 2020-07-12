@@ -1,18 +1,18 @@
 import template from './template.html';
 import {
   getAllCategories
-} from '../../services/categoryService.js'
+} from '../../services/categoryService'
 import {
   getUsers
-} from '../../services/usersService.js'
+} from '../../services/usersService'
 import {
   addItem,
   editItem,
   getItem
-} from '../../services/itemsService.js'
+} from '../../services/itemsService'
 import {
   getCurrentUserId
-} from '../../services/sessionService.js'
+} from '../../services/sessionService'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;

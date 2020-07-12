@@ -1,7 +1,7 @@
 import template from './template.html';
-import { toggleItemComplete, deleteItem } from '../../services/itemsService.js'
-import { getCurrentUserId } from '../../services/sessionService.js'
-import PubSub from '../../pubsub.js'
+import { toggleItemComplete, deleteItem } from '../../services/itemsService'
+import { getCurrentUserId } from '../../services/sessionService'
+import PubSub from '../../pubsub'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;

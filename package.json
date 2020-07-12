@@ -17,7 +17,9 @@
   "devDependencies": {
     "babel-jest": "^25.1.0",
     "jest": "^25.1.0",
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "ts-loader": "^8.0.0",
+    "typescript": "^3.9.6"
   },
   "jest": {
     "automock": false,

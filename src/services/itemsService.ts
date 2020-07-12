@@ -12,13 +12,13 @@ export const getAllItems = async () => {
     return data;
 }
 
-export const getItem = async (id) => {
+export const getItem = async (id: any) => {
     let response = await fetch(apiUrl + `getitem/${id}`);
     let data = await response.json()
     return data;
 }
 
-export const addItem = async (newItem) => {
+export const addItem = async (newItem: any) => {
     //validate here?
 
     const response = await fetch(apiUrl, {
@@ -35,12 +35,13 @@ export const addItem = async (newItem) => {
         body: JSON.stringify(newItem) // body data type must match "Content-Type" header
     });
 
-    if (response.status == "200") {
+    if (response.status == 200) {
         if (newItem.AssignedUserId == null || !newItem.CompleteBy) {
             return response;
         }
 
         await createCalendarEvent(newItem);
+        //would saving event id to item make it easier to edit and delete? probably!
     }
 
     //what if create succeeds but calendar creation fails? need to notify user somehow
@@ -50,7 +51,7 @@ export const addItem = async (newItem) => {
     return response;
 }
 
-export const editItem = async (item) => {
+export const editItem = async (item: any) => {
     //validate here?
 
     const response = await fetch(apiUrl, {
@@ -77,7 +78,7 @@ export const editItem = async (item) => {
     return await response;
 }
 
-const createCalendarEvent = async (item) => {
+const createCalendarEvent = async (item: any) => {
     const assignedUserEmail = await getUserEmail(item.AssignedUserId);
 
     const calendarRequest = {
@@ -100,7 +101,7 @@ const createCalendarEvent = async (item) => {
     });
 }
 
-export const toggleItemComplete = async (completedItemId, isComplete, userId) => {
+export const toggleItemComplete = async (completedItemId: any, isComplete: any, userId: any) => {
     //validate here?
 
     const response = await fetch(apiUrl + `toggleItemComplete`, {
@@ -125,7 +126,7 @@ export const toggleItemComplete = async (completedItemId, isComplete, userId) =>
     return await response;
 }
 
-export const deleteItem = async (itemIdToDelete) => {
+export const deleteItem = async (itemIdToDelete: any) => {
     //validate here?
 
     const response = await fetch(apiUrl, {
