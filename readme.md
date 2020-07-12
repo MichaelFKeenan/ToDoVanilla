@@ -4,6 +4,7 @@
 
 * NodeJS
 * Jest
+* Postgresql
 
 ### Local installs
 * Run npm install to install all packages
@@ -12,6 +13,7 @@
 # Running locally
 * Run 'npm test' to run unit tests
 * Run 'npm start' to perform webpack build and start server running on localhost:8080
+* restore postgre db locally
 
 # Deployment
 * Run unit tests, not automated yet
