@@ -17,16 +17,16 @@ import {
 } from './filters/filterSelect/filterSelect';
 import PubSub from '../../pubsub'
 
-let toDoItems = []
+let toDoItems: Item[] = []
 
-const filters = [];
+const filters: any[] = [];
 let isFilterMenuOpen = false;
 
-let filterMenuContainerEl;
-let filterMenuRowEl;
-let menuToggleBtnEl;
-let menuToggleBtnIconEl;
-let userId;
+let filterMenuContainerEl: any;
+let filterMenuRowEl: any;
+let menuToggleBtnEl: any;
+let menuToggleBtnIconEl: any;
+let userId: any;
 
 export const init = async () => {
     filterMenuContainerEl = document.getElementById('filters-container');
@@ -62,14 +62,18 @@ const toggleFilterMenu = () => {
     isFilterMenuOpen = !isFilterMenuOpen;
 }
 
-const getFilteredIds = () => FilterItems(toDoItems, filters).map((item) => item.Id);
+const getFilteredIds = function(): number[]{
+    const ids: number[] = FilterItems(toDoItems, filters).map((item: Item) => item.Id);
+
+    return ids;
+}
 
 const generateList = () => {
     const itemList = document.getElementById('item-list');
 
     const filteredIds = getFilteredIds();
 
-    toDoItems.forEach((item) => {
+    toDoItems.forEach((item: Item) => {
         const newListItem = new ListItem(item);
 
         if (filteredIds.includes(item.Id)) {
@@ -85,15 +89,18 @@ const generateList = () => {
 //How do we test this kind of stuff?! Karma?
 //abstract hiding and showing of items so we can create a mock/sub and check calls? hmmm not sure
 const filterList = () => {
-    const filteredIds = getFilteredIds();
+    const filteredIds: number[] = getFilteredIds();
 
     const itemsInDom = document.getElementsByClassName('toDoItem');
-
     for (var i = 0; i < itemsInDom.length; i++) {
-        if (filteredIds.includes(itemsInDom[i].attributes.Id)) {
-            itemsInDom[i].classList.remove('hidden');
+        const item = <HTMLElement>itemsInDom[i];
+        
+        const id = parseInt(item.id);
+
+        if (filteredIds.includes(id)) {
+            item.classList.remove('hidden');
         } else {
-            itemsInDom[i].classList.add('hidden');
+            item.classList.add('hidden');
         }
     }
 }

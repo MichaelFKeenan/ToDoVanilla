@@ -28,7 +28,7 @@ export class ListItem extends HTMLElement {
     this.Item = itemData;
 
     this.className = 'toDoItem';
-    this.attributes.Id = this.Item.Id
+    this.setAttribute('id', this.Item.Id);
 
     this.EditBtnLinkEl = shadow.getElementById('edit-btn-link');
     this.EditBtnLinkEl.setAttribute('href', `/items/edit?id=${this.Item.Id}`);

@@ -147,7 +147,7 @@ WHERE id = ${id};
 
 const mapItemDisplay = (item) => {
   return {
-    "Id": item.item_id,
+    "Id": parseInt(item.item_id),
     "Name": item.item_name,
     'Complete': item.complete == "1" ? true : false,
     'Priority': item.priority,

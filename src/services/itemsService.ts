@@ -6,19 +6,19 @@ import {
 const apiUrl = window.location.origin + '/api/items/';
 const googleApiUrl = window.location.origin + '/googleapi/';
 
-export const getAllItems = async () => {
+export const getAllItems = async () : Promise<Item[]> => {
     let response = await fetch(apiUrl);
     let data = await response.json()
     return data;
 }
 
-export const getItem = async (id: any) => {
+export const getItem = async (id: any) : Promise<Item> => {
     let response = await fetch(apiUrl + `getitem/${id}`);
     let data = await response.json()
     return data;
 }
 
-export const addItem = async (newItem: any) => {
+export const addItem = async (newItem: Item): Promise<Response> => {
     //validate here?
 
     const response = await fetch(apiUrl, {
@@ -51,7 +51,7 @@ export const addItem = async (newItem: any) => {
     return response;
 }
 
-export const editItem = async (item: any) => {
+export const editItem = async (item: any): Promise<Response> => {
     //validate here?
 
     const response = await fetch(apiUrl, {
@@ -78,7 +78,7 @@ export const editItem = async (item: any) => {
     return await response;
 }
 
-const createCalendarEvent = async (item: any) => {
+const createCalendarEvent = async (item: any): Promise<Response> => {
     const assignedUserEmail = await getUserEmail(item.AssignedUserId);
 
     const calendarRequest = {
@@ -101,7 +101,7 @@ const createCalendarEvent = async (item: any) => {
     });
 }
 
-export const toggleItemComplete = async (completedItemId: any, isComplete: any, userId: any) => {
+export const toggleItemComplete = async (completedItemId: any, isComplete: any, userId: any): Promise<Response> => {
     //validate here?
 
     const response = await fetch(apiUrl + `toggleItemComplete`, {
@@ -126,7 +126,7 @@ export const toggleItemComplete = async (completedItemId: any, isComplete: any, 
     return await response;
 }
 
-export const deleteItem = async (itemIdToDelete: any) => {
+export const deleteItem = async (itemIdToDelete: any): Promise<Response> => {
     //validate here?
 
     const response = await fetch(apiUrl, {
