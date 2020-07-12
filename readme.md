@@ -17,6 +17,10 @@
 3) createdb -p 5433 -T template0 todo 
 4) pg_restore -p 5433 --no-owner --role=owner2 -d todo [PATH TO LOCAL BACKUPS]/[FILE NAME]
 
+* Create a .env file in root with the following:
+1) DATABASE_URL=[connectionstring for local db]
+2) URL=[http://localhost:8080]
+
 # Running locally
 * Run 'npm test' to run unit tests
 * Run 'npm start' to perform webpack build and start server running on localhost:8080
