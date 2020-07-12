@@ -1,4 +1,4 @@
-import { getAllItems, getItem, addItem } from './itemsService'
+import { getAllItems, getItem, addItem, editItem } from './itemsService'
 
 describe('Items Service', () => {
   beforeEach(() => {
@@ -38,17 +38,16 @@ describe('Items Service', () => {
   describe('given create item succeeds', () => {
     beforeEach(() => {
       fetch.mockImplementation((url) => {
-        if (url === 'http://localhost/api/items/') {
-          return Promise.resolve(new Response()) 
+        switch(url){
+          case 'http://localhost/api/items/' :
+            return Promise.resolve(new Response())
+          case 'http://localhost/api/users/getemailaddress/userid' :
+            return Promise.resolve(new Response(JSON.stringify({emailAddress: "user@email.com"})))
+          case 'http://localhost/googleapi/event' :
+            return Promise.resolve(new Response()) 
+          default :
+            return Promise.reject(new Error('bad url'))
         }
-        else if (url === 'http://localhost/api/users/getemailaddress/userid') {
-          return Promise.resolve(new Response(JSON.stringify({emailAddress: "user@email.com"}))) 
-        }
-        else if (url === 'http://localhost/googleapi/event') {
-          return Promise.resolve(new Response()) 
-        }
-      
-        return Promise.reject(new Error('bad url'))
       })
     });
   
@@ -68,7 +67,28 @@ describe('Items Service', () => {
       const response = await addItem({"AssignedUserId": "userid", "CompleteBy": "some date"});
       expect(response.status).toEqual(200);
       expect(fetch.mock.calls[2][0]).toEqual("http://localhost/googleapi/event");
+      expect(fetch.mock.calls[2][1].method).toStrictEqual("POST");
       expect(fetch.mock.calls[2][1].body).toStrictEqual("{\"AssignedUserId\":\"userid\",\"CompleteBy\":\"some date\",\"assignedUserEmail\":\"user@email.com\"}");
+    });
+  });
+
+  describe('given edit item succeeds', () => {
+    beforeEach(() => {
+      fetch.mockImplementation((url) => {
+        if (url === 'http://localhost/api/items/') {
+          return Promise.resolve(new Response()) 
+        }
+      
+        return Promise.reject(new Error('bad url'))
+      })
+    });
+  
+    test('sends edit request to api', async () => {
+      const response = await editItem({"id": "1"});
+      expect(response.status).toEqual(200);
+      expect(fetch.mock.calls[0][0]).toEqual("http://localhost/api/items/");
+      expect(fetch.mock.calls[0][1].method).toStrictEqual("PUT");
+      expect(fetch.mock.calls[0][1].body).toStrictEqual("{\"id\":\"1\"}");
     });
   });
 })
