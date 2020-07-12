@@ -5,6 +5,7 @@
 * NodeJS 13+
 * Jest
 * Postgresql
+* typescript
 
 ### Local installs
 * Run npm install to install all packages
