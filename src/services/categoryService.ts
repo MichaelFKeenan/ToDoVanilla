@@ -7,15 +7,15 @@ export const getAllCategories = async () => {
   return data;
 }
 
-export const deleteCategory = async (itemId) => {
+export const deleteCategory = async (itemId: number) => {
   console.log('delete', itemId);
 }
 
-export const editCategory = async (item) => {
+export const editCategory = async (item: Item) => {
   console.log('edit', item);
 }
 
-export const addCategory = async (newCategory) => {
+export const addCategory = async (newCategory: string) => {
   //validate here?
 
   const response = await fetch(apiUrl, {

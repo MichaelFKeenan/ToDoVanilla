@@ -1,4 +1,4 @@
-import { addCategory } from '../services/categoryService.js'
+import { addCategory } from '../services/categoryService'
 
 let submitBtn;
 

@@ -1,5 +1,5 @@
 import template from './template.html';
-import { deleteCategory } from '../../services/categoryService.js'
+import { deleteCategory } from '../../services/categoryService'
 
 const templateEl = document.createElement('template');
 templateEl.innerHTML = template;

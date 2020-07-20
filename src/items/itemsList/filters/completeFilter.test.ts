@@ -1,55 +1,55 @@
 import CompleteFilter from './completeFilter'
 
-test('filter is inactive by default', () => {
+test('Filter is inactive by default', () => {
     const completeFilter = new CompleteFilter();
-    expect(completeFilter.active).toBe(false);
+    expect(completeFilter.Active).toBe(false);
 });
 
-test('filter is active if passed true', () => {
+test('Filter is Active if passed true', () => {
     const completeFilter = new CompleteFilter(true);
-    expect(completeFilter.active).toBe(true);
+    expect(completeFilter.Active).toBe(true);
 });
 
-describe('given filter is inactive', () => {
+describe('given Filter is inactive', () => {
     const completeFilter = new CompleteFilter();
 
     beforeAll(() => {
-        completeFilter.active = false;
+        completeFilter.Active = false;
     })
 
     test('return true if complete', () => {
         const item = {
             Complete: true,
         }
-        expect(completeFilter.filter(item)).toBe(true);
+        expect(completeFilter.Filter(item)).toBe(true);
     });
     
     test('return true if incomplete', () => {
         const item = {
             Complete: false,
         }
-        expect(completeFilter.filter(item)).toBe(true);
+        expect(completeFilter.Filter(item)).toBe(true);
     });
 });
 
-describe('given filter is active', () => {
+describe('given Filter is Active', () => {
     const completeFilter = new CompleteFilter();
 
     beforeAll(() => {
-        completeFilter.active = true;
+        completeFilter.Active = true;
     })
 
     test('return true if incomplete', () => {
         const item = {
             Complete: false,
         }
-        expect(completeFilter.filter(item)).toBe(true);
+        expect(completeFilter.Filter(item)).toBe(true);
     });
     
     test('return false if complete', () => {
         const item = {
             Complete: true,
         }
-        expect(completeFilter.filter(item)).toBe(false);
+        expect(completeFilter.Filter(item)).toBe(false);
     });
 });

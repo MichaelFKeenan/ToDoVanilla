@@ -130,7 +130,7 @@ export class ItemForm extends HTMLElement {
       Complete: false,
       Priority: Number(priorityValue),
       CategoryId: Number(categorySelectValue),
-      AssignedUserId: Number(assignedUserSelectValue),
+      AssignedToUserId: Number(assignedUserSelectValue),
       Description: descriptionValue,
       Effort: Number(effortValue),
       CompleteBy: completeByValue,

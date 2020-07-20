@@ -52,8 +52,8 @@ export const createItem = async (newItemRequest) => {
     ${newItemRequest.CompleteBy != "" ? `'${newItemRequest.CompleteBy}'` : null },
     '${newItemRequest.UserId}',
     to_timestamp(${Math.floor(Date.now())} / 1000.0),
-    ${newItemRequest.AssignedUserId != null ? `'${newItemRequest.AssignedUserId}'` : null},
-    ${newItemRequest.AssignedUserId != null ? `'${newItemRequest.UserId}'` : null }
+    ${newItemRequest.AssignedToUserId != null ? `'${newItemRequest.AssignedToUserId}'` : null},
+    ${newItemRequest.AssignedToUserId != null ? `'${newItemRequest.UserId}'` : null }
     )`);
 
   if (response.rows == null || response.rows.length < 1) {
@@ -84,8 +84,8 @@ export const updateItem = async (editedItemRequest) => {
     '${editedItemRequest.Description}', 
     '${editedItemRequest.Effort.toString()}', 
     ${editedItemRequest.CompleteBy != "" ? `'${editedItemRequest.CompleteBy}'` : null },
-    ${editedItemRequest.AssignedUserId != null ? `'${editedItemRequest.AssignedUserId}'` : null},
-    ${editedItemRequest.AssignedUserId != null ? `'${editedItemRequest.UserId}'` : null }
+    ${editedItemRequest.AssignedToUserId != null ? `'${editedItemRequest.AssignedToUserId}'` : null},
+    ${editedItemRequest.AssignedToUserId != null ? `'${editedItemRequest.UserId}'` : null }
     )
    where id = ${editedItemRequest.Id.toString()}`);
 

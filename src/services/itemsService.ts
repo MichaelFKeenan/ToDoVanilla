@@ -36,7 +36,7 @@ export const addItem = async (newItem: Item): Promise<Response> => {
     });
 
     if (response.status == 200) {
-        if (newItem.AssignedUserId == null || !newItem.CompleteBy) {
+        if (newItem.AssignedToUserId == null || !newItem.CompleteBy) {
             return response;
         }
 
@@ -79,7 +79,7 @@ export const editItem = async (item: any): Promise<Response> => {
 }
 
 const createCalendarEvent = async (item: any): Promise<Response> => {
-    const assignedUserEmail = await getUserEmail(item.AssignedUserId);
+    const assignedUserEmail = await getUserEmail(item.AssignedToUserId);
 
     const calendarRequest = {
         ...item,

@@ -1,7 +1,7 @@
-import HighPriorityFilter from './highPriorityFilter.js'
-import CompleteFilter from './completeFilter.js'
-import CategoryFilter from './categoryFilter.js'
-import AssignedFilter from './assignedFilter.js'
+import HighPriorityFilter from './highPriorityFilter'
+import CompleteFilter from './completeFilter'
+import CategoryFilter from './categoryFilter'
+import AssignedFilter from './assignedFilter'
 
 const filter = { HighPriorityFilter, CompleteFilter, CategoryFilter, AssignedFilter };
 

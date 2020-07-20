@@ -8,12 +8,12 @@ const mockAllCategoriesResponse = [{
     'Name': 'test 2'
 }]
 
-test('filter is all by default', () => {
+test('Filter is all by default', () => {
     const categoryFilter = new CategoryFilter();
     expect(categoryFilter.value).toBe('All');
 });
 
-test('filter is value if one is passed', () => {
+test('Filter is value if one is passed', () => {
     const categoryFilter = new CategoryFilter('1');
     expect(categoryFilter.value).toBe('1');
 });
@@ -25,14 +25,14 @@ describe('given value is all', () => {
         const item = {
             CategoryId: 1,
         }
-        expect(categoryFilter.filter(item)).toBe(true);
+        expect(categoryFilter.Filter(item)).toBe(true);
     });
 
     test('return from category 2', () => {
         const item = {
             CategoryId: 2,
         }
-        expect(categoryFilter.filter(item)).toBe(true);
+        expect(categoryFilter.Filter(item)).toBe(true);
     });
 });
 
@@ -43,14 +43,14 @@ describe('given value is 1', () => {
         const item = {
             CategoryId: 1,
         }
-        expect(categoryFilter.filter(item)).toBe(true);
+        expect(categoryFilter.Filter(item)).toBe(true);
     });
 
     test('do not return from category 2', () => {
         const item = {
             CategoryId: 2,
         }
-        expect(categoryFilter.filter(item)).toBe(false);
+        expect(categoryFilter.Filter(item)).toBe(false);
     });
 });
 
@@ -58,7 +58,7 @@ describe('given categories are returned', () => {
     const categoryFilter = new CategoryFilter();
 
     beforeEach(() => {
-        global.fetch = jest.fn().mockImplementation(() => {
+        (<any>global).fetch = jest.fn().mockImplementation(() => {
             var response = new Promise((resolve, reject) => {
               resolve({
                 ok: true, 

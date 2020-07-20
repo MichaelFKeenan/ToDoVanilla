@@ -4,7 +4,7 @@ interface Item {
     Complete: boolean,
     Priority: number,
     CategoryId: number,
-    AssignedUserId: number,
+    AssignedToUserId: number,
     Description: string,
     Effort: number,
     CompleteBy: string,

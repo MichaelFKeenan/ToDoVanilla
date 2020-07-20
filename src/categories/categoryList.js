@@ -1,9 +1,9 @@
 import {
     getAllCategories
-} from '../services/categoryService.js'
+} from '../services/categoryService'
 import {
     ListItem
-} from './listItem/listItem.js';
+} from './listItem/listItem';
 
 let categoryItems = []
 

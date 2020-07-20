@@ -1,19 +1,20 @@
 import {
     getAllCategories
-} from '../../../services/categoryService.js'
+} from '../../../services/categoryService'
 
-export default class CategoryFilter {
-    htmlIdentifier;
-    name;
-    filter;
-    value;
-    type;
-    options;
-    asyncConnectedCallback;
+export default class CategoryFilter implements IFilter {
+    HtmlIdentifier: string;
+    Name: string;
+    Active: boolean;
+    Filter: any;
+    Type: string;
+    options: any[];
+    asyncConnectedCallback: any;
+    value: string;
     constructor(defaultValue = 'All') {
-        this.type = "select";
-        this.htmlIdentifier = "category-filter-select";
-        this.name = "category filter";
+        this.Type = "select";
+        this.HtmlIdentifier = "category-filter-select";
+        this.Name = "category filter";
         this.value = defaultValue;
         this.options = [{
             //this is sooo wrong, should deffo be same type!
@@ -21,8 +22,9 @@ export default class CategoryFilter {
             display: 'All'
         }];
 
-        this.filter = (toDoItem) => {
-            return this.value != 'All' ? toDoItem.CategoryId == this.value : true;
+        this.Filter = (toDoItem: Item) => {
+            //yuck
+            return this.value != 'All' ? toDoItem.CategoryId.toString() == this.value : true;
         }
 
         this.asyncConnectedCallback = async () => {
