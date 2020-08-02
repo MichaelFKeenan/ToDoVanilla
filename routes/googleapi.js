@@ -28,7 +28,7 @@ router.post('/event', async function (req, res) {
   var calendar = google.calendar('v3');
 
   var eventRequest = generateGoogleEventRequest(item);
-  console.log('eventRequest', eventRequest)
+
   const response = calendar.events.insert({
     auth: oauth2Client,
     calendarId: req.user.emailAddress,

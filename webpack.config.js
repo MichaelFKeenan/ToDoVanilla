@@ -12,7 +12,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, 'public'),
-        port: 8080,
+        port: 8090,
         host: `localhost`,
     },
     output: {
@@ -23,8 +23,25 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
                 exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-typescript',
+                                    {
+                                        'modules': 'false',//commonjs,amd,umd,systemjs,auto
+                                        'useBuiltIns': 'usage',
+                                        'targets': '> 0.25%, not dead',
+                                        'corejs': 3
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.js$/,

@@ -5,26 +5,27 @@ const templateEl = document.createElement('template');
 templateEl.innerHTML = template;
 
 export class FilterSelect extends HTMLElement {
-  SelectEl;
-  Filter;
+  SelectEl: HTMLElement;
+  Filter: IFilterSelect;
 
-  constructor(filter) {
+  constructor(filter: IFilterSelect) {
     super();
     const shadow = this.attachShadow({ mode: 'closed' });
     shadow.appendChild(templateEl.content.cloneNode(true));
 
     this.SelectEl = shadow.getElementById('root');
+
     this.Filter = filter;
 
-    this.SelectEl.id = filter.htmlIdentifier;
+    this.SelectEl.id = filter.HtmlIdentifier;
   }
 
   async connectedCallback(){
-    if(this.Filter.asyncConnectedCallback){
-      await this.Filter.asyncConnectedCallback();
+    if(this.Filter.AsyncConnectedCallback != null){
+      await this.Filter.AsyncConnectedCallback();
     }
 
-    this.Filter.options.forEach(option => {
+    this.Filter.Options.forEach(option => {
       const newOptionEl = document.createElement('option');
       newOptionEl.innerHTML = option.display;
       newOptionEl.value = option.value;
@@ -32,7 +33,8 @@ export class FilterSelect extends HTMLElement {
     });
 
     this.SelectEl.addEventListener('change', (event) => {
-      this.Filter.value = event.target.value;
+      let eventTarget: any = event.target
+      this.Filter.Value = eventTarget.value;
       PubSub.publish("filterListEvent")
     })
   }

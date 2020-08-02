@@ -114,14 +114,15 @@ const registerFilters = () => {
 
     filters.forEach((filter) => {
         let filterEl;
-        if (filter.type == "button") {
+        if (filter.Type == "button") {
             filterEl = new FilterButton(filter);
         }
-        if (filter.type == "select") {
+        if (filter.Type == "select") {
             //need to build this
             //filter should have a list of options as well as selected value
             filterEl = new FilterSelect(filter);
         }
+        
         const newCol = document.createElement('div');
         newCol.classList.add('col');
         newCol.classList.add('mb-3');

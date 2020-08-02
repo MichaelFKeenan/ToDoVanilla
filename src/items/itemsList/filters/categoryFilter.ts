@@ -2,21 +2,21 @@ import {
     getAllCategories
 } from '../../../services/categoryService'
 
-export default class CategoryFilter implements IFilter {
+export default class CategoryFilter implements IFilterSelect {
     HtmlIdentifier: string;
     Name: string;
     Active: boolean;
     Filter: any;
     Type: string;
-    options: any[];
-    asyncConnectedCallback: any;
-    value: string;
+    Options: any[];
+    AsyncConnectedCallback: any;
+    Value: string;
     constructor(defaultValue = 'All') {
         this.Type = "select";
         this.HtmlIdentifier = "category-filter-select";
         this.Name = "category filter";
-        this.value = defaultValue;
-        this.options = [{
+        this.Value = defaultValue;
+        this.Options = [{
             //this is sooo wrong, should deffo be same type!
             value: 'All',
             display: 'All'
@@ -24,14 +24,14 @@ export default class CategoryFilter implements IFilter {
 
         this.Filter = (toDoItem: Item) => {
             //yuck
-            return this.value != 'All' ? toDoItem.CategoryId.toString() == this.value : true;
+            return this.Value != 'All' ? toDoItem.CategoryId.toString() == this.Value : true;
         }
 
-        this.asyncConnectedCallback = async () => {
+        this.AsyncConnectedCallback = async () => {
             const categories = await getAllCategories();
 
             for (var i = 0; i < categories.length; i++) {
-                this.options.push({
+                this.Options.push({
                     //this is sooo wrong, should deffo be same type!
                     value: categories[i].Id,
                     display: categories[i].Name

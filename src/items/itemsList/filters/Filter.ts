@@ -5,4 +5,10 @@ interface IFilter {
     Filter(item: Item): boolean;
     //create a type/enum for this
     Type: string;
+    AsyncConnectedCallback?(): void;
+}
+
+interface IFilterSelect extends IFilter {
+    Options: any[];
+    Value: string;
 }

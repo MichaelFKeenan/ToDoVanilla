@@ -38,7 +38,7 @@ module.exports = () => {
 GetUserByEmailAddress = async (emailAddress) => {
   //what if the user exists from another type of sign in? should check by email instead?
   const options = {
-    // uri: `http://localhost:8080/api/users/getUser/${emailAddress}`,
+    // uri: `http://localhost:8090/api/users/getUser/${emailAddress}`,
     uri: `${url}/api/users/getUser/${emailAddress}`,
     method: 'GET',
     // qs: {

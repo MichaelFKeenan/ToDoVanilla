@@ -20,11 +20,11 @@
 
 * Create a .env file in root with the following:
 1) DATABASE_URL=[connectionstring for local db]
-2) URL=[http://localhost:8080]
+2) URL=[http://localhost:8090]
 
 # Running locally
 * Run 'npm test' to run unit tests
-* Run 'npm start' to perform webpack build and start server running on localhost:8080
+* Run 'npm start' to perform webpack build and start server running on localhost:8090
 
 # Deployment
 * Run unit tests, not automated yet

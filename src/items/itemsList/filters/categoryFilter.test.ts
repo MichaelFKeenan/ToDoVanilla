@@ -10,15 +10,15 @@ const mockAllCategoriesResponse = [{
 
 test('Filter is all by default', () => {
     const categoryFilter = new CategoryFilter();
-    expect(categoryFilter.value).toBe('All');
+    expect(categoryFilter.Value).toBe('All');
 });
 
-test('Filter is value if one is passed', () => {
+test('Filter is Value if one is passed', () => {
     const categoryFilter = new CategoryFilter('1');
-    expect(categoryFilter.value).toBe('1');
+    expect(categoryFilter.Value).toBe('1');
 });
 
-describe('given value is all', () => {
+describe('given Value is all', () => {
     const categoryFilter = new CategoryFilter();
 
     test('return from category 1', () => {
@@ -36,7 +36,7 @@ describe('given value is all', () => {
     });
 });
 
-describe('given value is 1', () => {
+describe('given Value is 1', () => {
     const categoryFilter = new CategoryFilter('1');
 
     test('return from category 1', () => {
@@ -72,9 +72,9 @@ describe('given categories are returned', () => {
         });
     })
 
-    test('when asyncCallBack then create options for each category and all', async () => {
-        await categoryFilter.asyncConnectedCallback();
-        expect(categoryFilter.options).toEqual([
+    test('when asyncCallBack then create Options for each category and all', async () => {
+        await categoryFilter.AsyncConnectedCallback();
+        expect(categoryFilter.Options).toEqual([
             {
                 value: "All",
                 display: "All"

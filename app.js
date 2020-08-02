@@ -14,7 +14,7 @@ import apiRoutes from './api/routes';
 import webRoutes from './routes/routes';
 
 const app = express();
-const port = 8080;
+const port = 8090;
 
 const compiler = webpack(config);
 
