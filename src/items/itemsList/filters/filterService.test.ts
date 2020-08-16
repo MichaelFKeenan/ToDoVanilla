@@ -16,9 +16,13 @@ const CreateItem = (Id: number, Complete: boolean, CategoryId: number = 1): Item
 }
 
 describe('given one filter', () => {
-    const filters = [
+    const filters: IFilter[] = [
         {
-            filter: (item: Item) => {
+            HtmlIdentifier: "",
+            Name: "",
+            Active: true,
+            Type: "",
+            Filter: (item: Item) => {
                 return item.Complete
             }
         }
@@ -41,12 +45,20 @@ describe('given one filter', () => {
 describe('given many filters', () => {
     const filters = [
         {
-            filter: (item: any) => {
+            HtmlIdentifier: "",
+            Name: "",
+            Active: true,
+            Type: "",
+            Filter: (item: any) => {
                 return item.Complete
             }
         },
         {
-            filter: (item: any) => {
+            HtmlIdentifier: "",
+            Name: "",
+            Active: true,
+            Type: "",
+            Filter: (item: any) => {
                 return item.CategoryId == 2
             }
         }
