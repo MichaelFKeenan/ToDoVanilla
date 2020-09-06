@@ -16,6 +16,7 @@ import {
     FilterSelect
 } from './filters/filterSelect/filterSelect';
 import PubSub from '../../pubsub'
+import { AssignedFilterModel } from './filters/assignedFilter'
 
 let toDoItems: Item[] = []
 
@@ -107,7 +108,7 @@ const filterList = () => {
 
 const registerFilters = () => {
     //we can actually test a lot of this file now
-    filters.push(FilterFactory.createFilter('AssignedFilter', {userId}))
+    filters.push(FilterFactory.createFilter('AssignedFilter', new AssignedFilterModel(true, userId)))
     filters.push(FilterFactory.createFilter('HighPriorityFilter', false))
     filters.push(FilterFactory.createFilter('CompleteFilter', true))
     filters.push(FilterFactory.createFilter('CategoryFilter'))
