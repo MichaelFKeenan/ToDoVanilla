@@ -20,7 +20,6 @@ export default class AssignedFilter implements IFilter {
         this.Name = "assigned";
         this.Active = assignedFilterModel.IsActive;
         this.Filter = (toDoItem: Item) => {
-            console.log(this.Active, toDoItem.AssignedToUserId, assignedFilterModel.UserId)
             return this.Active ? toDoItem.AssignedToUserId == assignedFilterModel.UserId : true
         }
     }
