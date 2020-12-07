@@ -2,7 +2,7 @@
 
 ### Global Installs
 
-* NodeJS 13+
+* NodeJS 12.11.1
 * Jest
 * Postgresql
 * typescript
